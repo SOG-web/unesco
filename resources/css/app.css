@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.auth {
+    background-image: url("../../public/img/auth-background.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.auth-cover {
+    background: rgba(2, 26, 74, 0.6);
+}
