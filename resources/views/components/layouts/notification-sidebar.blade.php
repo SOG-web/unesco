@@ -1,0 +1,37 @@
+<?php
+$notices = [
+    ['header' => 'New assessment uploaded ytyuuhuhwe', 'time' => '09:20AM', 'date' => '22/04/24'],
+    ['header' => 'General Meeting', 'time' => '09:20AM', 'date' => '22/04/24'],
+    ['header' => 'New assessment uploaded', 'time' => '09:20AM', 'date' => '22/04/24'],
+    ['header' => 'General Meeting', 'time' => '09:20AM', 'date' => '22/04/24'],
+    ['header' => 'New assessment uploaded', 'time' => '09:20AM', 'date' => '22/04/24']
+];
+
+$activities = [
+    ['header' => 'Posted New Course', 'date_time' => '09 Jan, 09:20AM', 'type' => 'course'],
+    ['header' => 'Added New Assessment', 'date_time' => '09 Jan, 09:20AM', 'type' => 'other'],
+    ['header' => 'Posted New Course', 'date_time' => '09 Jan, 09:20AM', 'type' => 'course'],
+    ['header' => 'Posted New Course', 'date_time' => '09 Jan, 09:20AM', 'type' => 'course'],
+    ['header' => 'Added New Assessment', 'date_time' => '09 Jan, 09:20AM', 'type' => 'other']
+];
+?>
+
+<div
+    class="bg-inherit w-full min-h-dvh px-[15px] xl:px-[30px] xl2:px-[43px]
+    h-full flex flex-col items-start justify-start pt-[30px] pb-[41px] xl:pt-[41px]
+    gap-[65px] max-w-[300px] hover:overflow-y-scroll scroll-smooth"
+>
+    <div class="flex flex-row justify-between items-center w-full max-w-[200px]">
+        <x-ui.cu-badge content="9">
+            <x-iconsax-lin-notification class="w-[22px] h-[22px] text-[#8B8C8C]"/>
+        </x-ui.cu-badge>
+        <x-heroicon-o-cog-8-tooth class="w-[22px] h-[22px] text-[#8B8C8C]"/>
+        <button
+            class="xl:w-[85px] xl:h-[41px] w-[65px] h-[31px] bg-primary rounded-2xl flex items-center justify-center">
+            <p class="text-center text-white text-xs font-medium xl:font-semibold font-poppins leading-tight">
+                Log out</p>
+        </button>
+    </div>
+    <x-sections.notices-sidebar-sec :notices="$notices"/>
+    <x-sections.activity-sidebar-sec :activities="$activities"/>
+</div>
