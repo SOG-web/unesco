@@ -18,6 +18,8 @@ return new class extends Migration {
             $table->foreignIdFor(User::class, 'student_id')->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Course::class)->constrained()->cascadeOnDelete();
             $table->decimal('progress', 5, 2)->default(0.00);
+            $table->boolean('completed')->default(false);
+            $table->boolean('started')->default(false);
         });
     }
 

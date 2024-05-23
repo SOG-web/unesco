@@ -16,16 +16,17 @@ return new class extends Migration {
             $table->id();
             $table->timestamps();
             $table->foreignIdFor(User::class, 'teacher_id')->constrained()->nullOnDelete();
-            $table->string('title');
+            $table->string('title')->unique();
             $table->string('duration');
-            $table->string('thumbnail');
+            $table->string('thumbnail')->nullable();
+            $table->date('start_date');
+            $table->date('end_date');
             $table->string('type');
             $table->string('video_url')->nullable();
             $table->string('audio_url')->nullable();
             $table->string('link')->nullable();
             $table->string('slug')->unique();
             $table->text('description');
-            $table->text('content')->nullable();
         });
 
         Schema::create('course_student', function (Blueprint $table) {

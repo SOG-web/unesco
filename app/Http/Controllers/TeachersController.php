@@ -8,7 +8,8 @@ class TeachersController extends Controller
 {
     public function index()
     {
-        return view('admin.teachers.index');
+        $teachers = auth()->user()->teachers()->get();
+        return view('teachers.index', ['teachers' => $teachers]);
     }
 
     public function store()
@@ -18,27 +19,33 @@ class TeachersController extends Controller
             'last_name' => 'required',
             'title' => 'required',
             'email' => ['required', 'email', 'unique:users'],
-            'profile_pic' => ['nullable', 'file', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
         ]);
-
-        // upload profile pic
 
         $teacher = User::create([
             'first_name' => $verified->first_name,
             'last_name' => $verified->last_name,
             'title' => $verified->title,
             'email' => $verified->email,
-            'password' => bcrypt('password'),
+            'password' => 'password',
             'role' => 'teacher'
         ]);
 
         $teacher->assignRole('teacher');
 
-        return redirect()->route('teachers.index');
+        return redirect('/teachers')->with('status', 'Teacher created successfully.');
     }
 
     public function create()
     {
-        return view('admin.teachers.create');
+        return view('teachers.create');
+    }
+
+    public function show(string $id)
+    {
+        $teacher = User::findOrFail($id);
+        if ($teacher->role !== 'teacher') {
+            abort(404);
+        }
+        return view('teachers.show', $teacher);
     }
 }

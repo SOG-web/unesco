@@ -25,7 +25,7 @@ class User extends Authenticatable
 
     public function unreadNotices()
     {
-        return $this->notices()->where('status', 'unread')->get();
+        return $this->notices()->where('status', 'unread');
     }
 
     public function notices()
@@ -40,12 +40,47 @@ class User extends Authenticatable
 
     public function unreadActivities()
     {
-        return $this->activities()->where('status', 'unread')->get();
+        return $this->activities()->where('status', 'unread');
     }
 
     public function activities()
     {
         return $this->hasMany(Activity::class);
+    }
+
+    public function students()
+    {
+        if ($this->isTeacher()) {
+            return $this->belongsToMany(
+                User::class, // The model we wish to access
+                'course_student', // The name of the pivot table
+                'course_id', // Foreign key on the pivot table related to the current model
+                'user_id', // Foreign key on the pivot table related to the model we wish to access
+                'id', // Local key on the current model
+                'id' // Local key on the model we wish to access
+            );
+        }
+
+        return User::where('role', 'student');
+    }
+
+    public function isTeacher()
+    {
+        return $this->role === 'teacher';
+    }
+
+    public function teachers()
+    {
+        if (!$this->isAdmin()) {
+            return null;
+        }
+
+        return User::where('role', 'teacher');
+    }
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
     }
 
     public function courses()
@@ -55,15 +90,10 @@ class User extends Authenticatable
         }
 
         if ($this->isStudent()) {
-            return $this->belongsToMany(Course::class);
+            return $this->belongsToMany(Course::class, 'course_student');
         }
 
         return null;
-    }
-
-    public function isTeacher()
-    {
-        return $this->role === 'teacher';
     }
 
     public function isStudent()
@@ -79,11 +109,6 @@ class User extends Authenticatable
     public function assessments()
     {
         return $this->belongsToMany(Assessment::class, 'assessment_student');
-    }
-
-    public function isAdmin()
-    {
-        return $this->role === 'admin';
     }
 
     public function assignRole(string $string)

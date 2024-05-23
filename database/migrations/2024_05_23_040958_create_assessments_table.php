@@ -33,6 +33,8 @@ return new class extends Migration {
             $table->json('answers')->nullable();
             $table->integer('total_mark')->nullable();
             $table->string('status')->default('pending');
+            $table->dateTime('completed_at')->nullable();
+            $table->boolean('submitted')->default(false);
             $table->timestamps();
         });
     }
