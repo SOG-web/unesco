@@ -44,7 +44,7 @@ class TeachersController extends Controller
     {
         $teacher = User::findOrFail($id);
         if ($teacher->role !== 'teacher') {
-            abort(404);
+            abort(404, 'Teacher not found.');
         }
         return view('teachers.show', $teacher);
     }

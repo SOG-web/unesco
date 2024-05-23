@@ -33,17 +33,17 @@ class StudentsController extends Controller
                 'last_name' => ['required'],
                 'email' => ['required', 'email'],
             ]);
-            
+
             $student = User::create([
                 'first_name' => $verified->first_name,
                 'last_name' => $verified->last_name,
                 'title' => null,
                 'email' => $verified->email,
                 'password' => 'password',
-                'role' => 'student'
+                'role' => 'students'
             ]);
 
-            $student->assignRole('student');
+            $student->assignRole('students');
         } catch (Exception $e) {
             throw ValidationException::withMessages([
                 'email' => 'This email is already in use.'
@@ -62,12 +62,12 @@ class StudentsController extends Controller
     {
         $student = User::findOrFail($id);
 
-        if ($student->role !== 'student') {
+        if ($student->role !== 'students') {
             abort(404);
         }
 
         return view('students.show', [
-            'student' => $student
+            'students' => $student
         ]);
     }
 }

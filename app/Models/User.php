@@ -61,7 +61,7 @@ class User extends Authenticatable
             );
         }
 
-        return User::where('role', 'student');
+        return User::where('role', 'students');
     }
 
     public function isTeacher()

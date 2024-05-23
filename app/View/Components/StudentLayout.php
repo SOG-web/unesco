@@ -21,6 +21,6 @@ class StudentLayout extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('layouts.student-layout');
+        return view('layouts.students-layout');
     }
 }

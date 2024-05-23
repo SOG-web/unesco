@@ -49,10 +49,10 @@ class AppServiceProvider extends ServiceProvider
         });
 
         /**
-         * This policy is used to determine if the authenticated user is a student.
+         * This policy is used to determine if the authenticated user is a students.
          * @return boolean
          */
-        Gate::define('student-access', function (User $user) {
+        Gate::define('students-access', function (User $user) {
             return $user->role === 'student';
         });
     }

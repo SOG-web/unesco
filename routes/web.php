@@ -76,11 +76,11 @@ Route::middleware('auth')->group(function () {
         Route::get('assessments/create', 'create')->can('teacher-access');
         Route::post('assessments/store', 'store')->can('teacher-access');
         Route::get('assessments/{id}', 'show');
-    })->middleware(['can:teacher-access', 'can:student-access']);
+    })->middleware(['can:teacher-access', 'can:students-access']);
 
     Route::controller(GradesController::class)->group(function () {
         Route::get('grades', 'index');
-    })->middleware('can:student-access');
+    })->middleware('can:students-access');
 
 });
 

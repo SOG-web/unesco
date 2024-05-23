@@ -19,7 +19,7 @@ class DashboardController extends Controller
 
         if ($userRole === 'admin') {
             $teachers = User::where('role', 'teacher')->latest()->take(3)->get();
-            $students = User::where('role', 'student')->latest()->take(3)->get();
+            $students = User::where('role', 'students')->latest()->take(3)->get();
             $courses = Course::latest()->take(3)->get();
             return view('dashboard.index', [
                 'notices' => $notices,
@@ -36,7 +36,7 @@ class DashboardController extends Controller
                 'notices' => $notices, 'activities' => $activities, 'students' => $students,
                 'courses' => $courses, 'assessment' => $assessments
             ]);
-        } elseif ($userRole === 'student') {
+        } elseif ($userRole === 'students') {
             $student = User::where('id', auth()->id())->with(['courses.progress'])->first();
             $courses = $student->courses()->take(3)->get();
             $assessments = $student->courses()->with('assessments')->latest()->take(3)->get();

@@ -39,7 +39,7 @@ class UserFactory extends Factory
     function randomPick(): string
     {
         // random pick between 'course' and 'other'
-        $types = ['student', 'teacher', 'admin'];
+        $types = ['students', 'teacher', 'admin'];
         return $types[array_rand($types)];
     }
 

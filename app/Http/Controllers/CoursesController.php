@@ -29,7 +29,7 @@ class CoursesController extends Controller
             ]);
         }
 
-        if ($userRole === 'student') {
+        if ($userRole === 'students') {
             $student = User::where('id', auth()->id())->with(['courses.progress'])->first();
             $courses = $student->courses()->get();
 
@@ -48,7 +48,7 @@ class CoursesController extends Controller
             $student = auth()->user();
             $progress = $student->progress()->where('course_id', $course->id)->first();
 
-            // If the student is opening the course for the first time
+            // If the students is opening the course for the first time
             if (!$progress) {
                 $progress = $student->progress()->create([
                     'course_id' => $course->id,
@@ -66,6 +66,11 @@ class CoursesController extends Controller
         return view('courses.show', [
             'course' => $course
         ]);
+    }
+
+    public function create()
+    {
+        return view('courses.create');
     }
 
     public function store()
