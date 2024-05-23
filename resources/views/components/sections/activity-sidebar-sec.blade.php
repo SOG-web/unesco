@@ -1,6 +1,6 @@
 @props([
     'activities' => [
-        ['header' => 'Posted New Course', 'date_time' => '09 Jan, 09:20AM', 'type' => 'course']
+        ['title' => 'Posted New Course', 'created_at' => '2024-05-23 01:01:22', 'type' => 'course']
         ]
     ])
 
@@ -10,9 +10,11 @@
     </div>
     <div class="flex flex-col items-start justify-start gap-4">
         @foreach($activities as $activity)
-            <x-ui.activity-side-card :header="$activity['header']" :date_time="$activity['date_time']"
+            <x-ui.activity-side-card :title="$activity['title']" :created_at="$activity['created_at']"
                                      :type="$activity['type']"/>
         @endforeach
     </div>
-    <a href="/notices" class="text-sky-900 text-sm font-semibold font-poppins">See more >>></a>
+    @if(count($activities) > 0)
+        <a href="/activities" class="text-sky-900 text-sm font-semibold font-poppins">See more >>></a>
+    @endif
 </div>

@@ -1,3 +1,5 @@
+@props(['notices' => []])
+
 <div
     class="bg-inherit w-full
     h-full flex flex-col items-center justify-between
@@ -20,7 +22,7 @@
         </div>
     </div>
     <div class="flex w-full flex-col items-center justify-start gap-3 pb-[30px]">
-        <x-layouts.sidebar-link href="{{ route('dashboard') }}" :active="request()->is('dashboard')">
+        <x-layouts.sidebar-link href="/dashboard" :active="request()->is('dashboard')">
             <x-icons.dashboard :active="request()->is('dashboard')"/>
             <span>Dashboard</span>
         </x-layouts.sidebar-link>
@@ -35,9 +37,11 @@
         <x-layouts.sidebar-link :active="request()->is('notices')">
             <x-icons.notify :active="request()->is('notices')"/>
             <span>Notices</span>
-            <div class="flex ml-auto items-center justify-center rounded-full h-4 w-4 bg-red-500">
-                <p class="text-white text-[10px] font-semibold">2</p>
-            </div>
+            @if(count($notices) >0)
+                <div class="flex ml-auto items-center justify-center rounded-full h-4 w-4 bg-red-500">
+                    <p class="text-white text-[10px] font-semibold">{{ count($notices) }}</p>
+                </div>
+            @endif
         </x-layouts.sidebar-link>
         <x-layouts.sidebar-link :active="request()->is('teachers')">
             <x-icons.teachers :active="request()->is('teachers')"/>

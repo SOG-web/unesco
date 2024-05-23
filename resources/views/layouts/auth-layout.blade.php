@@ -10,15 +10,15 @@
                 xl2:max-w-[300px] hidden min-h-dvh lg:flex relative">
                 <div class="w-full h-full max-w-[200px] xl:max-w-[250px]
                 xl2:max-w-[300px] bg-primary overflow-hidden fixed">
-                    <x-layouts.sidebar/>
+                    {{ $sidebar }}
                 </div>
             </div>
-            <div class="w-full min-h-dvh h-[1200px]"></div>
+            <div class="w-full min-h-dvh h-[1200px]">{{ $slot }}</div>
             <div class="w-full max-w-[200px] xl:max-w-[250px]
                 xl2:max-w-[300px] hidden min-h-dvh lg:flex relative">
                 <div class="w-full h-full max-w-[200px] xl:max-w-[250px]
                 xl2:max-w-[300px] bg-natural-100 overflow-hidden fixed">
-                    <x-layouts.notification-sidebar/>
+                    {{ $rightSidebar }}
                 </div>
             </div>
         </div>

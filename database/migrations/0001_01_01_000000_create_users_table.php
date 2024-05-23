@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('first_name');
             $table->string('last_name');
+            $table->string('title')->nullable();
             $table->string('role')->default('student');
             $table->string('profile_pic')->nullable();
             $table->string('email')->unique();

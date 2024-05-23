@@ -18,6 +18,7 @@ export default withMT({
                 background: '#E8EFF6',
                 'natural-100': '#F9F8F9',
                 'gray-4': '#cccccc',
+                'gray-2': '#838383',
                 'yellow-1': '#FFAD47',
                 'yellow-fade': '#FFE4C2',
                 'text-1': '#272835',

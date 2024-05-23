@@ -23,6 +23,75 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function unreadNotices()
+    {
+        return $this->notices()->where('status', 'unread')->get();
+    }
+
+    public function notices()
+    {
+        return $this->hasMany(Notice::class);
+    }
+
+    public function receivedNotices()
+    {
+        return $this->belongsToMany(Notice::class);
+    }
+
+    public function unreadActivities()
+    {
+        return $this->activities()->where('status', 'unread')->get();
+    }
+
+    public function activities()
+    {
+        return $this->hasMany(Activity::class);
+    }
+
+    public function courses()
+    {
+        if ($this->isTeacher()) {
+            return $this->hasMany(Course::class, 'teacher_id');
+        }
+
+        if ($this->isStudent()) {
+            return $this->belongsToMany(Course::class);
+        }
+
+        return null;
+    }
+
+    public function isTeacher()
+    {
+        return $this->role === 'teacher';
+    }
+
+    public function isStudent()
+    {
+        return $this->role === 'student';
+    }
+
+    public function progress()
+    {
+        return $this->hasMany(Progress::class, 'student_id');
+    }
+
+    public function assessments()
+    {
+        return $this->belongsToMany(Assessment::class, 'assessment_student');
+    }
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    public function assignRole(string $string)
+    {
+        $this->role = $string;
+        $this->save();
+    }
+
     /**
      * Get the attributes that should be cast.
      *

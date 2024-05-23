@@ -17,11 +17,12 @@
         rel="stylesheet">
 
     @vite(['resources/css/app.css','resources/js/app.js','resources/css/scroll.css'])
-    <script async src="node_modules/@material-tailwind/html/scripts/ripple.js"></script>
     @bukStyles
 </head>
 <body>
 {{ $slot }}
 @bukScripts
+<script src="https://unpkg.com/@material-tailwind/html@latest/scripts/tabs.js"></script>
+<script src="https://unpkg.com/@material-tailwind/html@latest/scripts/ripple.js"></script>
 </body>
 </html>

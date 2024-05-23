@@ -25,15 +25,22 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'first_name' => fake()->name(),
-            'last_name' => fake()->name(),
+            'first_name' => fake()->firstName(),
+            'last_name' => fake()->lastName(),
             'email' => fake()->unique()->safeEmail(),
-            'role' => 'user', // 'user' or 'admin' or 'teacher'
+            'role' => $this->randomPick(),
             'profile_pic' => 'https://ui-avatars.com/api/?name='.fake()->name(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];
+    }
+
+    function randomPick(): string
+    {
+        // random pick between 'course' and 'other'
+        $types = ['student', 'teacher', 'admin'];
+        return $types[array_rand($types)];
     }
 
     /**
