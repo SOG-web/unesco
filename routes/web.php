@@ -10,7 +10,7 @@ use App\Http\Controllers\TeachersController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    redirect('/dashboard');
 });
 
 Route::post('/logout', function () {
