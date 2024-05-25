@@ -1,29 +1,53 @@
-<div class="w-full max-w-[692px] py-[31px] flex flex-col items-center justify-start gap-[25px] bg-white rounded-[10px]">
-    <div class="w-full max-w-[518px] gap-[110px] flex flex-row items-center justify-start mb-[9px] flex-wrap">
+@props(['courses'])
+
+<div
+    class="w-full max-w-[692px] py-[31px] flex flex-col items-center justify-start gap-[25px] bg-white rounded-[10px] px-[21px]">
+    <div
+        class="
+        w-full max-w-[518px]
+        {{ request()->is('courses') && auth()->user()->role == 'teacher' ? 'justify-between' : 'justify-start gap-[50px] lg:gap-[110px]'  }}
+        flex flex-row items-center  mb-[9px] flex-wrap"
+    >
         <h1 class="font-poppins font-semibold text-text-1 text-[16px] md:text-[18px] lg:text-[22px]">Courses</h1>
-        <div class="tab-list">
-            <button class="tab-list-item rounded-[6px] px-[15px] py-[4px] font-poppins font-medium text-[12px] active"
+        @if(!auth()->user()->role == 'teacher')
+            <div class="tab-list">
+                <button
+                    class="tab-list-item rounded-[6px] px-[15px] py-[4px] font-poppins font-medium text-[12px] active"
                     data-target="tab1">All
-            </button>
-            <button class="tab-list-item rounded-[6px] px-[15px] py-[4px] font-poppins font-medium text-[12px]"
-                    data-target="tab2">
-                Recent
-            </button>
-        </div>
-    </div>
-    <div class="tabs">
-        <div class="tab-content">
-            <div id="tab1" class="tab active">
-                Content for Tab 1
+                </button>
+                <button class="tab-list-item rounded-[6px] px-[15px] py-[4px] font-poppins font-medium text-[12px]"
+                        data-target="tab2">
+                    Recent
+                </button>
             </div>
-            <div id="tab2" class="tab">
-                Content for Tab 2
+        @elseif(auth()->user()->role == 'admin')
+            <form class="hidden" method="POST" id="createForm" action="/courses/create">
+                @csrf
+                @method('GET')
+            </form>
+            <button type="submit" form="createForm" id="createForm"
+                    class="rounded-[10px] px-[15px] bg-primary py-[12px] text-white font-medium text-[12px] self-end"
+                    data-target="tab1">+ Add New Courses
+            </button>
+        @endif
+    </div>
+    @if(!auth()->user()->role == 'teacher')
+        <div class="tabs">
+            <div class="tab-content">
+                <div id="tab1" class="tab active">
+                    Content for Tab 1
+                </div>
+                <div id="tab2" class="tab">
+                    Content for Tab 2
+                </div>
             </div>
         </div>
-    </div>
-    <div class="w-full max-w-[518px] flex items-end justify-end">
-        <a href="/courses" class=" text-sky-900 text-sm font-semibold font-poppins">See more >>></a>
-    </div>
+    @endif
+    @if( request()->is('dashboard'))
+        <div class="w-full max-w-[518px] flex items-end justify-end">
+            <a href="/courses" class=" text-sky-900 text-sm font-semibold font-poppins">See more >>></a>
+        </div>
+    @endif
 </div>
 
 <style>

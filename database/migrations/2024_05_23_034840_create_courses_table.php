@@ -19,8 +19,8 @@ return new class extends Migration {
             $table->string('title')->unique();
             $table->string('duration');
             $table->string('thumbnail')->nullable();
-            $table->date('start_date');
-            $table->date('end_date');
+            $table->date('date')->nullable();
+            $table->time('time')->nullable();
             $table->string('type');
             $table->string('video_url')->nullable();
             $table->string('audio_url')->nullable();

@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Models\User;
 use Exception;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+
 
 class CoursesController extends Controller
 {
@@ -13,11 +15,12 @@ class CoursesController extends Controller
     {
         $userRole = auth()->user()->role;
 
+
         if ($userRole === 'admin') {
             $courses = Course::latest()->get();
 
             return view('courses.index', [
-                'courses' => $courses
+                'courses' => $courses,
             ]);
         }
 
@@ -75,22 +78,22 @@ class CoursesController extends Controller
 
     public function store()
     {
-        if (!auth()->user()->isTeacher()) {
-            abort(401);
-        }
+//        if (!auth()->user()->isTeacher()) {
+//            abort(401);
+//        }
+
+        dd(request()->all());
 
         $validate = request()->validate([
             'title' => ['required', 'string', 'max:255', 'unique:courses'],
             'duration' => ['required', 'string'],
-            'thumbnail' => ['required', 'file', 'image'],
-            'start_date' => ['required', 'date'],
-            'end_date' => ['required', 'date'],
+            'thumbnail' => ['nullable', 'file', 'image'],
+            'date' => ['nullable', 'date'],
+            'time' => ['nullable', 'string'],
             'type' => ['required', 'string'],
             'description' => ['required', 'string'],
-            'video_url' => ['nullable', 'string'],
-            'audio_url' => ['nullable', 'string'],
             'link' => ['nullable', 'string'],
-            'slug' => ['required', 'string', 'unique:courses'],
+            'upload' => ['nullable', 'file'],
         ]);
 
         // Handle the thumbnail upload
@@ -100,20 +103,26 @@ class CoursesController extends Controller
             $thumbnail->move(public_path('thumbnails'), $thumbnailName);
         }
 
+        if (request()->hasFile('upload')) {
+            $upload = request()->file('upload');
+            $uploadName = time().'.'.$upload->getClientOriginalExtension();
+            $upload->move(public_path('uploads'), $uploadName);
+        }
+
         // Create the course
         Course::create([
             'teacher_id' => auth()->id(),
             'title' => $validate['title'],
             'duration' => $validate['duration'],
             'thumbnail' => $thumbnailName ?? null,
-            'start_date' => $validate['start_date'],
-            'end_date' => $validate['end_date'],
+            'date' => $validate['date'],
+            'time' => $validate['time'],
             'type' => $validate['type'],
             'description' => $validate['description'],
             'video_url' => $validate['video_url'],
             'audio_url' => $validate['audio_url'],
-            'link' => $validate['link'],
-            'slug' => $validate['slug'],
+            'link' => $uploadName ?? null,
+            'slug' => Str::slug($validate['title']),
         ]);
 
         return redirect()->route('courses.index')->with('success', 'Course created successfully');

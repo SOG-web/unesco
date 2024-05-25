@@ -10,7 +10,7 @@ use App\Http\Controllers\TeachersController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    redirect('/dashboard');
+    return view('welcome');
 });
 
 Route::post('/logout', function () {
@@ -40,7 +40,7 @@ Route::middleware('auth')->group(function () {
 
         Route::get('courses', 'index');
 
-        Route::middleware('can:teacher-access')->group(function () {
+        Route::middleware('can:admin-access')->group(function () {
             Route::get('courses/create', 'create');
             Route::post('courses/store', 'store');
         });

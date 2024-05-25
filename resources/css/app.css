@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
 .auth {
     background-image: url("../../public/img/auth-background.png");
     background-repeat: no-repeat;

@@ -44,13 +44,13 @@ $lists = [
                           class="w-full flex flex-col items-center justify-center gap-[20px]">
                         @csrf
                         <x-form-field>
-                            <x-input label="Email" placeholder=" " id="email" name="email" type="email"
+                            <x-ui.input label="Email" placeholder=" " id="email" name="email" type="email"
                                      :value="old('email')"
                                      required/>
                             <x-form-error name="email"/>
                         </x-form-field>
                         <x-form-field>
-                            <x-input label="Password" id="password" placeholder=" " name="password" type="password"
+                            <x-ui.input label="Password" id="password" placeholder=" " name="password" type="password"
                                      required/>
                             <x-form-error name="password"/>
                         </x-form-field>
@@ -112,30 +112,30 @@ $lists = [
                           class="w-full flex flex-col items-center justify-center gap-[20px]">
                         @csrf
                         <x-form-field>
-                            <x-input label="First Name" placeholder=" " id="first_name" name="first_name" type="text"
+                            <x-ui.input label="First Name" placeholder=" " id="first_name" name="first_name" type="text"
                                      :value="old('first_name')"
                                      required/>
                             <x-form-error name="first_name"/>
                         </x-form-field>
                         <x-form-field>
-                            <x-input label="Last Name" placeholder=" " id="last_name" name="last_name" type="text"
+                            <x-ui.input label="Last Name" placeholder=" " id="last_name" name="last_name" type="text"
                                      :value="old('last_name')"
                                      required/>
                             <x-form-error name="last_name"/>
                         </x-form-field>
                         <x-form-field>
-                            <x-input label="Email" placeholder=" " id="email" name="email" type="email"
+                            <x-ui.input label="Email" placeholder=" " id="email" name="email" type="email"
                                      :value="old('email')"
                                      required/>
                             <x-form-error name="email"/>
                         </x-form-field>
                         <x-form-field>
-                            <x-input label="Password" id="password" placeholder=" " name="password" type="password"
+                            <x-ui.input label="Password" id="password" placeholder=" " name="password" type="password"
                                      required/>
                             <x-form-error name="password"/>
                         </x-form-field>
                         <x-form-field>
-                            <x-input label="Confirm Password" id="password_confirmation" placeholder=" "
+                            <x-ui.input label="Confirm Password" id="password_confirmation" placeholder=" "
                                      name="password_confirmation" type="password"
                                      required/>
                             <x-form-error name="password_confirmation"/>

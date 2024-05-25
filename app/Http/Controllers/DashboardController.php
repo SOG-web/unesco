@@ -13,17 +13,11 @@ class DashboardController extends Controller
 
         $user = User::find(auth()->id());
 
-        $notices = $user->unreadNotices()->latest()->take(3)->get();
-
-        $activities = $user->unreadActivities()->latest()->take(3)->get();
-
         if ($userRole === 'admin') {
             $teachers = User::where('role', 'teacher')->latest()->take(3)->get();
             $students = User::where('role', 'students')->latest()->take(3)->get();
             $courses = Course::latest()->take(3)->get();
             return view('dashboard.index', [
-                'notices' => $notices,
-                'activities' => $activities,
                 'teachers' => $teachers,
                 'students' => $students,
                 'courses' => $courses
@@ -33,7 +27,7 @@ class DashboardController extends Controller
             $courses = Course::latest()->where('teacher_id', auth()->id())->take(3)->get();
             $assessments = $user->courses()->with('assessments')->latest()->take(3)->get();
             return view('dashboard.index', [
-                'notices' => $notices, 'activities' => $activities, 'students' => $students,
+                 'students' => $students,
                 'courses' => $courses, 'assessment' => $assessments
             ]);
         } elseif ($userRole === 'students') {
@@ -45,7 +39,7 @@ class DashboardController extends Controller
             });
             return view('dashboard.index',
                 [
-                    'notices' => $notices, 'activities' => $activities, 'courses' => $courses,
+                     'courses' => $courses,
                     'assessment' => $assessments, 'grades' => $grades
                 ]);
         }

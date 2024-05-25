@@ -1,4 +1,4 @@
-@props(['notices' => []])
+@props(['notices' => [], 'userRole' => 'student'])
 
 <div
     class="bg-inherit w-full
@@ -26,15 +26,29 @@
             <x-icons.dashboard :active="request()->is('dashboard')"/>
             <span>Dashboard</span>
         </x-layouts.sidebar-link>
-        <x-layouts.sidebar-link :active="request()->is('students')">
-            <x-icons.student :active="request()->is('students')"/>
-            <span>Students</span>
+        <x-layouts.sidebar-link
+            :href="$userRole == 'admin' ? '/students' : '/courses'"
+            :active="$userRole == 'admin' ? request()->is('students') : request()->is('courses')">
+            <x-icons.student :active="$userRole == 'admin' ? request()->is('students') : request()->is('courses')"/>
+            @if($userRole == 'admin')
+                <span>Students</span>
+            @else
+                <span>My Courses</span>
+            @endif
         </x-layouts.sidebar-link>
-        <x-layouts.sidebar-link :active="request()->is('courses')">
-            <x-icons.courses :active="request()->is('courses')"/>
-            <span>Courses</span>
+        <x-layouts.sidebar-link
+            :href="$userRole == 'admin' ? '/courses' : '/assessments'"
+            :active="$userRole == 'admin' ? request()->is('courses') : request()->is('assessments')">
+            <x-icons.courses :active="$userRole == 'admin' ? request()->is('courses') : request()->is('assessments')"/>
+            @if($userRole == 'admin')
+                <span>Courses</span>
+            @else
+                <span>Assessments</span>
+            @endif
         </x-layouts.sidebar-link>
-        <x-layouts.sidebar-link :active="request()->is('notices')">
+        <x-layouts.sidebar-link
+            href="/notices"
+            :active="request()->is('notices')">
             <x-icons.notify :active="request()->is('notices')"/>
             <span>Notices</span>
             @if(count($notices) >0)
@@ -43,9 +57,18 @@
                 </div>
             @endif
         </x-layouts.sidebar-link>
-        <x-layouts.sidebar-link :active="request()->is('teachers')">
-            <x-icons.teachers :active="request()->is('teachers')"/>
-            <span>Teachers</span>
+        <x-layouts.sidebar-link
+            :href="$userRole == 'admin' ? '/grades' : ($userRole == 'teacher' ? '/students' : '/grades')"
+            :active="($userRole == 'admin' ? request()->is('teachers') : ($userRole == 'teacher' ? request()->is('students') : request()->is('grades')))">
+            <x-icons.teachers
+                :active="($userRole == 'admin' ? request()->is('teachers') : ($userRole == 'teacher' ? request()->is('students') : request()->is('grades')))"/>
+            @if($userRole == 'admin')
+                <span>Teachers</span>
+            @elseif($userRole == 'teacher')
+                <span>My Students</span>
+            @else
+                <span>Grades</span>
+            @endif
         </x-layouts.sidebar-link>
 
     </div>

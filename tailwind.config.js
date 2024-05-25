@@ -23,6 +23,8 @@ export default withMT({
                 'yellow-fade': '#FFE4C2',
                 'text-1': '#272835',
                 'text-2': '#9E9E9E',
+                'text-3': '#8F92A1',
+                'text-4': '#595B61',
                 'sky-900': '#002979',
             },
             screens: {
