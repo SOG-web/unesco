@@ -40,7 +40,7 @@ Route::middleware('auth')->group(function () {
 
         Route::get('courses', 'index');
 
-        Route::middleware('can:admin-access')->group(function () {
+        Route::middleware('can:teacher-access')->group(function () {
             Route::get('courses/create', 'create');
             Route::post('courses/store', 'store');
         });

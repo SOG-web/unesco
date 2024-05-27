@@ -23,7 +23,7 @@ class NoticeFactory extends Factory
             'content' => fake()->paragraph(),
             'status' => 'unread',
             'type' => $this->randomPick(),
-            'user' => User::factory(),
+            'user_id' => User::factory(),
         ];
     }
 
