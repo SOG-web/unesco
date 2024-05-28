@@ -1,17 +1,14 @@
 @props([
-    'notices' => [
-        ['title' => 'New Notification', 'created_at' => '2024-05-23 01:01:22']
-        ]
-    ])
+    'notices'])
 
 <div class="w-full max-w-[186px] flex flex-col items-start justify-start gap-[25px]">
     <div class="flex flex-row items-center justify-center gap-2">
-        <p class="text-text-1 text-left font-poppins font-medium text-[16px]">Notices</p>
+        <p class="text-text-1 text-left font-medium text-[14px] md:text-[16px]">Notices</p>
         <x-ui.dot content="{{ count($notices) }}"/>
     </div>
     <div class="flex flex-col items-start justify-start gap-4">
         @foreach($notices as $notice)
-            <x-ui.notice-side-card :header="$notice['title']" :created_at="$notice['created_at']"/>
+            <x-ui.notice-side-card :title="$notice->title" :created_at="$notice['created_at']"/>
         @endforeach
     </div>
     @if(count($notices) > 0)

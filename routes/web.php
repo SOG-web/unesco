@@ -45,11 +45,11 @@ Route::middleware('auth')->group(function () {
             Route::post('courses/store', 'store');
         });
 
-        Route::middleware('can:admin-access')->group(function () {
-            Route::post('courses/addStudents', 'assignStudents');
-        });
+//        Route::middleware('can:admin-access')->group(function () {
+//            Route::post('courses/addStudents', 'assignStudents');
+//        });
 
-        Route::get('courses/{id}', 'show');
+        Route::get('courses/{id}', 'show')->name('courses.show');
 
     });
 

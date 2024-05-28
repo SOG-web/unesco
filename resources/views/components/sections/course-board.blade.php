@@ -1,11 +1,11 @@
-@props(['courses'])
+@props(['courses', 'view' => false])
 
 <div
-    class="w-full max-w-[692px] py-[31px] flex flex-col items-center justify-start gap-[25px] bg-white rounded-[10px] px-[21px]">
+    class="w-full max-w-[692px] max-h-[70dvh] overflow-y-scroll sidebar-scroll scroll-sep scroll-smooth py-[31px] flex flex-col items-center justify-start gap-[25px] bg-white rounded-[10px] px-[21px] xl:px-[45px]">
 
     <div
         class="
-        w-full max-w-[518px]
+        w-full max-w-[518px] self-start
         {{ request()->is('courses') && auth()->user()->role == 'teacher' ? 'justify-between' : 'justify-start gap-[50px] lg:gap-[110px]' }}
         flex flex-row items-center  mb-[9px] flex-wrap">
         <h1 class="font-poppins font-semibold text-text-1 text-[16px] md:text-[18px] lg:text-[22px]">Courses</h1>
@@ -49,7 +49,7 @@
     <div class="w-full flex flex-col items-start justify-start gap-4">
         @foreach ($courses as $course)
             <x-ui.course-card :image="$course->thumbnail" :title="$course->title" :updated_at="$course->updated_at" :duration="$course->duration"
-                :teacher="$course->teacher_id" />
+                :teacher="$course->teacher_id" :view="$view" :id="$course->id"/>
         @endforeach
     </div>
     @if (request()->is('dashboard'))

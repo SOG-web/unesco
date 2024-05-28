@@ -1,5 +1,6 @@
 /* Firefox */
 .sidebar-scroll {
+    position: relative;
     scrollbar-width: thin;
     scrollbar-color: #cccccc #002979;
     scrollbar-track-color: #E8EFF6;

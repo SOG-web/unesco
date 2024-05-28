@@ -22,14 +22,14 @@
         </div>
     </div>
     <div class="flex w-full flex-col items-center justify-start gap-3 pb-[30px]">
-        <x-layouts.sidebar-link href="/dashboard" :active="request()->is('dashboard')">
-            <x-icons.dashboard :active="request()->is('dashboard')"/>
+        <x-layouts.sidebar-link href="/dashboard" :active="str_contains(request()->fullUrl(), 'dashboard')">
+            <x-icons.dashboard :active="str_contains(request()->fullUrl(), 'dashboard')"/>
             <span>Dashboard</span>
         </x-layouts.sidebar-link>
         <x-layouts.sidebar-link
             :href="$userRole == 'admin' ? '/students' : '/courses'"
-            :active="$userRole == 'admin' ? request()->is('students') : request()->is('courses')">
-            <x-icons.student :active="$userRole == 'admin' ? request()->is('students') : request()->is('courses')"/>
+            :active="$userRole == 'admin' ? str_contains(request()->fullUrl(), 'students') : str_contains(request()->fullUrl(), 'courses')">
+            <x-icons.student :active="$userRole == 'admin' ? str_contains(request()->fullUrl(), 'students') : str_contains(request()->fullUrl(), 'courses')"/>
             @if($userRole == 'admin')
                 <span>Students</span>
             @else
@@ -38,8 +38,8 @@
         </x-layouts.sidebar-link>
         <x-layouts.sidebar-link
             :href="$userRole == 'admin' ? '/courses' : '/assessments'"
-            :active="$userRole == 'admin' ? request()->is('courses') : request()->is('assessments')">
-            <x-icons.courses :active="$userRole == 'admin' ? request()->is('courses') : request()->is('assessments')"/>
+            :active="$userRole == 'admin' ? str_contains(request()->fullUrl(), 'courses') : str_contains(request()->fullUrl(), 'assessments')">
+            <x-icons.courses :active="$userRole == 'admin' ? str_contains(request()->fullUrl(), 'courses') : str_contains(request()->fullUrl(), 'assessments')"/>
             @if($userRole == 'admin')
                 <span>Courses</span>
             @else
@@ -48,10 +48,10 @@
         </x-layouts.sidebar-link>
         <x-layouts.sidebar-link
             href="/notices"
-            :active="request()->is('notices')">
-            <x-icons.notify :active="request()->is('notices')"/>
+            :active="str_contains(request()->fullUrl(), 'notices')">
+            <x-icons.notify :active="str_contains(request()->fullUrl(), 'notices')"/>
             <span>Notices</span>
-            @if(count($notices) >0)
+            @if(count($notices) > 0)
                 <div class="flex ml-auto items-center justify-center rounded-full h-4 w-4 bg-red-500">
                     <p class="text-white text-[10px] font-semibold">{{ count($notices) }}</p>
                 </div>
@@ -59,9 +59,9 @@
         </x-layouts.sidebar-link>
         <x-layouts.sidebar-link
             :href="$userRole == 'admin' ? '/grades' : ($userRole == 'teacher' ? '/students' : '/grades')"
-            :active="($userRole == 'admin' ? request()->is('teachers') : ($userRole == 'teacher' ? request()->is('students') : request()->is('grades')))">
+            :active="($userRole == 'admin' ? str_contains(request()->fullUrl(), 'teachers') : ($userRole == 'teacher' ? str_contains(request()->fullUrl(), 'students') : str_contains(request()->fullUrl(), 'grades')))">
             <x-icons.teachers
-                :active="($userRole == 'admin' ? request()->is('teachers') : ($userRole == 'teacher' ? request()->is('students') : request()->is('grades')))"/>
+                :active="($userRole == 'admin' ? str_contains(request()->fullUrl(), 'teachers') : ($userRole == 'teacher' ? str_contains(request()->fullUrl(), 'students') : str_contains(request()->fullUrl(), 'grades')))"/>
             @if($userRole == 'admin')
                 <span>Teachers</span>
             @elseif($userRole == 'teacher')

@@ -25,7 +25,8 @@
     {{ $slot }}
 
     <script src="https://unpkg.com/@material-tailwind/html@latest/scripts/tabs.js"></script>
-    <script src="https://unpkg.com/@material-tailwind/html@latest/scripts/ripple.js"></script>
+    <script src="https://unpkg.com/@material-tailwind/html@latest/scripts/dialog.js"></script>
+{{--    <script src="https://unpkg.com/@material-tailwind/html@latest/scripts/ripple.js"></script>--}}
 </body>
 
 </html>

@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $first_name
@@ -71,6 +71,17 @@ class User extends Authenticatable
     public function unreadNotices()
     {
         return $this->notices()->where('status', 'unread');
+    }
+
+    public function setNotification($message, $type, $title)
+    {
+        Notice::create([
+            'user_id' => $this->id,
+            'title' => $title,
+            'content' => $message,
+            'type' => $type,
+            'status' => 'unread'
+        ]);
     }
 
     public function notices()

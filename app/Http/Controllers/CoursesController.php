@@ -47,6 +47,14 @@ class CoursesController extends Controller
     {
         $course = Course::findOrFail($id);
 
+        // get the course teacher profile
+        $teacher = $course->teacher()->first();
+
+        // get the course students
+        $students = $course->students()->get();
+
+        $allStudents = User::where('role', 'students')->get();
+
         if (auth()->user()->isStudent()) {
             $student = auth()->user();
             $progress = $student->progress()->where('course_id', $course->id)->first();
@@ -62,12 +70,16 @@ class CoursesController extends Controller
 
             return view('courses.show', [
                 'course' => $course,
-                'progress' => $progress
+                'progress' => $progress,
+                'teacher' => $teacher
             ]);
         }
 
         return view('courses.show', [
-            'course' => $course
+            'course' => $course,
+            'teacher' => $teacher,
+            'students' => $students,
+            'allStudents' => $allStudents
         ]);
     }
 
@@ -126,47 +138,5 @@ class CoursesController extends Controller
         ]);
 
         return redirect()->route('courses.index')->with('success', 'Course created successfully');
-    }
-
-    public function assignStudents()
-    {
-        if (!auth()->user()->isAdmin()) {
-            abort(401);
-        }
-
-        try {
-            $validate = request()->validate([
-                'course_id' => 'required',
-                'student_ids' => ['required', 'array']
-            ]);
-
-            $courseId = $validate->course_id;
-            $studentIds = $validate->student_ids;
-
-            // Retrieve the course
-            $course = Course::find($courseId);
-
-            if (!$course) {
-                abort(404, 'Course not found');
-            }
-
-            // Retrieve the students
-            $students = User::whereIn('id', $studentIds)->get();
-
-            if ($students->isEmpty()) {
-                abort(404, 'Students not found');
-            }
-
-            // Attach the students to the course
-            foreach ($students as $student) {
-                $course->students()->attach($student->id);
-            }
-
-            return redirect('/courses/'.$courseId)->with('status', 'Students added successfully');
-        } catch (Exception $e) {
-            throw ValidationException::withMessages([
-                'Inavlid input data'
-            ]);
-        }
     }
 }
