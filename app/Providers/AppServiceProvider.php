@@ -55,5 +55,13 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('students-access', function (User $user) {
             return $user->role === 'student';
         });
+
+        /**
+         * This policy is used to determine if the authenticated user is an admin or a teacher.
+         * @return boolean
+         */
+        Gate::define('teacher-or-admin-access', function (User $user) {
+            return $user->role === 'teacher' || $user->role === 'admin';
+        });
     }
 }

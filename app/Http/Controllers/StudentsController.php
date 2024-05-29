@@ -10,15 +10,8 @@ class StudentsController extends Controller
 {
     public function index()
     {
-        if (!auth()->user()->isTeacher() || !auth()->user()->isAdmin()) {
-            abort(401);
-        }
 
-        $students = auth()->user()->students()->get();
-
-        return view('students.index', [
-            'students' => $students
-        ]);
+        return view('students.index');
     }
 
     public function store()

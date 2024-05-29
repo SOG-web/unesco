@@ -29,25 +29,14 @@ class SelectStudent extends Component
 
     public function filterStudents()
     {
-        if ($this->loading || empty($this->search)) {
-            $this->filteredStudents = $this->students;
-            return null;
-        }
-        $this->loading = true;
-        $lowerSearch = strtolower($this->search);
-        $this->filteredStudents = $this->students->filter(function ($student) use ($lowerSearch) {
-            if (str_contains(strtolower($student->first_name), $lowerSearch)) {
-                return true;
-            }
-            if (str_contains(strtolower($student->last_name), $lowerSearch)) {
-                return true;
-            }
-            if (str_contains(strtolower($student->email), $lowerSearch)) {
-                return true;
-            }
-            return false;
+        return $this->students->when($this->search, function ($student) {
+            return $student->filter(fn ($student) => str_contains(
+                strtolower($student->first_name),
+                strtolower($this->search)
+            ) ||
+                str_contains(strtolower($student->last_name), strtolower($this->search)) ||
+                str_contains(strtolower($student->email), strtolower($this->search)));
         });
-        $this->loading = false;
     }
 
 
@@ -101,7 +90,7 @@ class SelectStudent extends Component
         }
     }
 
-    public function mount($students, $courseId, $alreadyAssignedStudents = [])
+    public function mount($students, $courseId, $alreadyAssignedStudents)
     {
         // dd($students); // This will output the students passed from the controller (CoursesController@show method)
         $this->courseId = $courseId;
@@ -111,11 +100,10 @@ class SelectStudent extends Component
         $this->students = $this->students->filter(function ($student) use ($alreadyAssignedStudents) {
             return !in_array($student->id, $alreadyAssignedStudents);
         });
-        $this->filteredStudents = $this->students;
     }
 
     public function render()
     {
-        return view('livewire.select-student', ['loading' => $this->loading]);
+        return view('livewire.select-student', ['loading' => $this->loading, 'students' => $this->filterStudents()]);
     }
 }

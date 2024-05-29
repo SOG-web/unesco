@@ -7,20 +7,11 @@
                 text-left text-text-1 lg:text-[22px] leading-[28px] lg:leading-[33px]">
                 Select students to assign</h1>
             {{--            search box --}}
-            <div
-                class="w-[217px] h-[41px] rounded-[10px] flex flex-row items-center justify-start gap-2 px-[10px] border-[2px] border-gray-4">
-                <svg class="w-[15px] h-[15px] text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                    width="24" height="24" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
-                        d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" />
-                </svg>
-                <input wire:model.live="search" wire:keydown.enter="$wire.filterStudents()" name="search"
-                    type="text" placeholder="Search students"
-                    class="rounded-[9px] w-full h-full border-none focus:border-none active:border-none
-                    outline-none text-text-2 font-normal text-[12px]">
+            <div class="w-[217px] h-[41px]">
+                <x-input placeholder="Search..." wire:model.live.debounce="search" clearable icon="o-magnifying-glass" />
             </div>
         </div>
-        @foreach ($filteredStudents as $student)
+        @foreach ($students as $student)
             <div wire:key="{{ $student->id }}" class="flex flex-row items-center justify-start gap-4">
                 <input type="checkbox" name="{{ $student->id }}"
                     wire:change.prevent="addOrRemoveStudent({{ $student->id }})"
