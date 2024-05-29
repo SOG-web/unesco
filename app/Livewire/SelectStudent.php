@@ -22,18 +22,34 @@ class SelectStudent extends Component
 
     public $filteredStudents = [];
 
-    public $search;
+    public $search = '';
 
-    public $loading = false;
+    protected $loading = false;
+
 
     public function filterStudents()
     {
-        $this->filteredStudents = $this->students->filter(function ($student) {
-            return str_contains(strtolower($student->first_name), strtolower($this->search)) ||
-                str_contains(strtolower($student->last_name), strtolower($this->search)) ||
-                str_contains(strtolower($student->email), strtolower($this->search));
+        if ($this->loading || empty($this->search)) {
+            $this->filteredStudents = $this->students;
+            return null;
+        }
+        $this->loading = true;
+        $lowerSearch = strtolower($this->search);
+        $this->filteredStudents = $this->students->filter(function ($student) use ($lowerSearch) {
+            if (str_contains(strtolower($student->first_name), $lowerSearch)) {
+                return true;
+            }
+            if (str_contains(strtolower($student->last_name), $lowerSearch)) {
+                return true;
+            }
+            if (str_contains(strtolower($student->email), $lowerSearch)) {
+                return true;
+            }
+            return false;
         });
+        $this->loading = false;
     }
+
 
     public function addOrRemoveStudent($studentId)
     {
@@ -46,7 +62,7 @@ class SelectStudent extends Component
 
     protected function selectStudent($studentId)
     {
-       $this->selectedStudents[] = $studentId;
+        $this->selectedStudents[] = $studentId;
     }
 
     protected function removeStudent($studentId)
@@ -56,7 +72,7 @@ class SelectStudent extends Component
 
     public function save()
     {
-        if($this->loading) {
+        if ($this->loading) {
             return null;
         }
         $this->loading = true;
@@ -79,7 +95,6 @@ class SelectStudent extends Component
 
             session()->flash('success', 'Students assigned successfully');
             return redirect()->route('courses.show', $course->id);
-
         } catch (Exception $e) {
             $this->loading = false;
             throw ValidationException::withMessages(['error' => $e->getMessage()]);
@@ -91,7 +106,7 @@ class SelectStudent extends Component
         // dd($students); // This will output the students passed from the controller (CoursesController@show method)
         $this->courseId = $courseId;
         $alreadyAssignedStudents = $alreadyAssignedStudents->pluck('id')->toArray();
-//        $this->selectedStudents = $alreadyAssignedStudents;
+        //        $this->selectedStudents = $alreadyAssignedStudents;
         // remove already assigned students from the list of students
         $this->students = $this->students->filter(function ($student) use ($alreadyAssignedStudents) {
             return !in_array($student->id, $alreadyAssignedStudents);
@@ -101,6 +116,6 @@ class SelectStudent extends Component
 
     public function render()
     {
-        return view('livewire.select-student');
+        return view('livewire.select-student', ['loading' => $this->loading]);
     }
 }

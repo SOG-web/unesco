@@ -1,7 +1,7 @@
 @props(['courses', 'view' => false])
 
 <div
-    class="w-full max-w-[692px] max-h-[70dvh] overflow-y-scroll sidebar-scroll scroll-sep scroll-smooth py-[31px] flex flex-col items-center justify-start gap-[25px] bg-white rounded-[10px] px-[21px] xl:px-[45px]">
+    class="w-full max-w-[692px] max-h-[70dvh] hover:overflow-y-scroll scroll-smooth py-[31px] flex flex-col items-center justify-start gap-[25px] bg-white rounded-[10px] px-[21px] xl:px-[45px]">
 
     <div
         class="
@@ -48,8 +48,8 @@
     @endif --}}
     <div class="w-full flex flex-col items-start justify-start gap-4">
         @foreach ($courses as $course)
-            <x-ui.course-card :image="$course->thumbnail" :title="$course->title" :updated_at="$course->updated_at" :duration="$course->duration"
-                :teacher="$course->teacher_id" :view="$view" :id="$course->id"/>
+            <x-ui.course-card :image="$course->thumbnail" :title="$course->title" :updated_at="$course->updated_at" :duration="$course->duration" :teacher="$course->teacher_id"
+                :view="$view" :id="$course->id" :type="$course->type" />
         @endforeach
     </div>
     @if (request()->is('dashboard'))
