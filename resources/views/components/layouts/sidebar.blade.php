@@ -1,4 +1,27 @@
-@props(['notices' => [], 'userRole' => 'student'])
+@php
+    $user = \App\Models\User::find(auth()->id());
+    $userRole = $user->role;
+    $sidebarLinks = [
+        'admin' => [
+            ['href' => '/students', 'icon' => 'students', 'label' => 'Students'],
+            ['href' => '/courses', 'icon' => 'courses', 'label' => 'Courses'],
+            ['href' => '/teachers', 'icon' => 'teachers', 'label' => 'Teachers'],
+        ],
+        'teacher' => [
+            ['href' => '/courses', 'icon' => 'students', 'label' => 'My Courses'],
+            ['href' => '/assessments', 'icon' => 'courses', 'label' => 'Assessments'],
+            ['href' => '/students', 'icon' => 'teachers', 'label' => 'My Students'],
+        ],
+        'students' => [
+            ['href' => '/courses', 'icon' => 'students', 'label' => 'My Courses'],
+            ['href' => '/assessments', 'icon' => 'courses', 'label' => 'Assessments'],
+            ['href' => '/grades', 'icon' => 'teachers', 'label' => 'Grades'],
+        ],
+    ];
+    $links = $sidebarLinks[$userRole] ?? [];
+@endphp
+
+@props(['notices' => []])
 
 <div
     class="bg-inherit w-full
@@ -8,17 +31,17 @@
 >
     <x-logo/>
     <div class="flex w-full flex-col max-w-[80%] items-center justify-start gap-3 px-[12px]">
-        @if(auth()->user()->profile_pic)
-            <img src="{{ auth()->user()->profile_pic }}" alt="user picture"
+        @if($user->profile_pic)
+            <img src="{{ $user->profile_pic }}" alt="user picture"
                  class="w-[60px] h-[60px] 2xl:w-[80px] 2xl:h-[80px] xl2:w-[100px] xl2:h-[100px] rounded-full bg-background"/>
         @else
             {{--name avatar--}}
-            <x-ui.name-avatar :first_name="auth()->user()->first_name" :last_name="auth()->user()->last_name"/>
+            <x-ui.name-avatar :first_name="$user->first_name" :last_name="$user->last_name"/>
         @endif
         <div class="flex w-full flex-col items-center justify-start gap-1">
-            <h1 class="text-[14px] 2xl:text-[18px] text-center font-medium font-poppins text-white">{{ auth()->user()->first_name  }} {{ auth()->user()->last_name }}</h1>
+            <h1 class="text-[14px] 2xl:text-[18px] text-center font-medium font-poppins text-white">{{ $user->first_name  }} {{ $user->last_name }}</h1>
             <p
-                class="text-[12px] w-full text-center text-wrap font-light font-poppins text-[#cccccc] break-words">{{ auth()->user()->email }}</p>
+                class="text-[12px] w-full text-center text-wrap font-light font-poppins text-[#cccccc] break-words">{{ $user->email }}</p>
         </div>
     </div>
     <div class="flex w-full flex-col items-center justify-start gap-3 pb-[30px]">
@@ -26,26 +49,15 @@
             <x-icons.dashboard :active="str_contains(request()->fullUrl(), 'dashboard')"/>
             <span>Dashboard</span>
         </x-layouts.sidebar-link>
-        <x-layouts.sidebar-link
-            :href="$userRole == 'admin' ? '/students' : '/courses'"
-            :active="$userRole == 'admin' ? str_contains(request()->fullUrl(), 'students') : str_contains(request()->fullUrl(), 'courses')">
-            <x-icons.student :active="$userRole == 'admin' ? str_contains(request()->fullUrl(), 'students') : str_contains(request()->fullUrl(), 'courses')"/>
-            @if($userRole == 'admin')
-                <span>Students</span>
-            @else
-                <span>My Courses</span>
-            @endif
-        </x-layouts.sidebar-link>
-        <x-layouts.sidebar-link
-            :href="$userRole == 'admin' ? '/courses' : '/assessments'"
-            :active="$userRole == 'admin' ? str_contains(request()->fullUrl(), 'courses') : str_contains(request()->fullUrl(), 'assessments')">
-            <x-icons.courses :active="$userRole == 'admin' ? str_contains(request()->fullUrl(), 'courses') : str_contains(request()->fullUrl(), 'assessments')"/>
-            @if($userRole == 'admin')
-                <span>Courses</span>
-            @else
-                <span>Assessments</span>
-            @endif
-        </x-layouts.sidebar-link>
+
+        @foreach($links as $link)
+            <x-layouts.sidebar-link
+                href="{{ $link['href'] }}"
+                :active="str_contains(request()->fullUrl(), $link['href'])">
+                <x-ui.dynamic-icon :icon="$link['icon']" :active="str_contains(request()->fullUrl(), $link['href'])"/>
+                <span>{{ $link['label'] }}</span>
+            </x-layouts.sidebar-link>
+        @endforeach
         <x-layouts.sidebar-link
             href="/notices"
             :active="str_contains(request()->fullUrl(), 'notices')">
@@ -57,19 +69,5 @@
                 </div>
             @endif
         </x-layouts.sidebar-link>
-        <x-layouts.sidebar-link
-            :href="$userRole == 'admin' ? '/grades' : ($userRole == 'teacher' ? '/students' : '/grades')"
-            :active="($userRole == 'admin' ? str_contains(request()->fullUrl(), 'teachers') : ($userRole == 'teacher' ? str_contains(request()->fullUrl(), 'students') : str_contains(request()->fullUrl(), 'grades')))">
-            <x-icons.teachers
-                :active="($userRole == 'admin' ? str_contains(request()->fullUrl(), 'teachers') : ($userRole == 'teacher' ? str_contains(request()->fullUrl(), 'students') : str_contains(request()->fullUrl(), 'grades')))"/>
-            @if($userRole == 'admin')
-                <span>Teachers</span>
-            @elseif($userRole == 'teacher')
-                <span>My Students</span>
-            @else
-                <span>Grades</span>
-            @endif
-        </x-layouts.sidebar-link>
-
     </div>
 </div>

@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\User;
 use Livewire\Component;
 
 class Students extends Component
@@ -9,13 +10,26 @@ class Students extends Component
 
     public bool $createStudent = false;
 
+    public bool $viewStudent = false;
+
+    public User $user;
+
+    public function closeModal($type)
+    {
+        if ($type == 'showStudent') {
+            $this->viewStudent = false;
+        }
+    }
+
     public function render()
     {
 
-        $students = auth()->user()->students()->get();
+        $user = auth()->user();
+
+        $students = $user->students()->get();
 
         return view('livewire.students', [
-            'students' => $students
+            'students' => $students,
         ]);
     }
 }

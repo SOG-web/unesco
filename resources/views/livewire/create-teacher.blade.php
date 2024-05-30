@@ -1,12 +1,21 @@
 <?php
 
-use Livewire\Volt\Component;
 use App\Models\User;
+use Livewire\Volt\Component;
 
 new class extends Component {
     public $first_name;
     public $last_name;
     public $email;
+    public $title;
+
+    public $titleOptions = [
+        ['name' => 'Mr', 'label' => 'Mr', 'id' => 'Mr'],
+        ['name' => 'Mrs', 'label' => 'Mrs', 'id' => 'Mrs'],
+        ['name' => 'Miss', 'label' => 'Miss', 'id' => 'Miss'],
+        ['name' => 'Dr', 'label' => 'Dr', 'id' => 'Dr'],
+        ['name' => 'Prof', 'label' => 'Prof', 'id' => 'Prof'],
+    ];
 
     public function save()
     {
@@ -18,6 +27,7 @@ new class extends Component {
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => 'required|email',
+            'title' => 'required',
         ]);
 
         User::create([
@@ -26,18 +36,21 @@ new class extends Component {
             'email' => $this->email,
             'password' => 'password',
             'title' => null,
-            'role' => 'students',
+            'role' => 'teacher',
         ]);
 
         $this->reset();
 
         // page reload to show the new student
-        return redirect()->route('students');
+        return redirect()->route('teachers');
     }
 }; ?>
 
 <div class="w-full">
     <x-form wire:submit="save">
+        <div class="mt-4">
+            <x-select required label="Title" icon-right="o-user" :options="$titleOptions" wire:model="title"/>
+        </div>
         <div class="mt-4">
             <x-input label="First Name" wire:model="first_name" required/>
         </div>
@@ -49,7 +62,7 @@ new class extends Component {
         </div>
 
         <div class="w-[151px] m-auto mt-4">
-            <x-button label="Add Student" type="submit" class="mt-4 bg-primary text-white w-full" spinner="save"/>
+            <x-button label="Add Teacher" type="submit" class="mt-4 bg-primary text-white w-full" spinner="save"/>
         </div>
     </x-form>
 </div>

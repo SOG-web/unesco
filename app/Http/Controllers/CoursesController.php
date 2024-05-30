@@ -4,9 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\User;
-use Exception;
-use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
 
 
 class CoursesController extends Controller
@@ -94,49 +91,30 @@ class CoursesController extends Controller
 //            abort(401);
 //        }
 
-        dd(request()->all());
-
         $validate = request()->validate([
-            'title' => ['required', 'string', 'max:255', 'unique:courses'],
+            'title' => ['required', 'string', 'max:255',],
             'duration' => ['required', 'string'],
-            'thumbnail' => ['nullable', 'file', 'image'],
             'date' => ['nullable', 'date'],
             'time' => ['nullable', 'string'],
             'type' => ['required', 'string'],
             'description' => ['required', 'string'],
             'link' => ['nullable', 'string'],
-            'upload' => ['nullable', 'file'],
+            'slug' => ['required', 'string'],
         ]);
-
-        // Handle the thumbnail upload
-        if (request()->hasFile('thumbnail')) {
-            $thumbnail = request()->file('thumbnail');
-            $thumbnailName = time().'.'.$thumbnail->getClientOriginalExtension();
-            $thumbnail->move(public_path('thumbnails'), $thumbnailName);
-        }
-
-        if (request()->hasFile('upload')) {
-            $upload = request()->file('upload');
-            $uploadName = time().'.'.$upload->getClientOriginalExtension();
-            $upload->move(public_path('uploads'), $uploadName);
-        }
 
         // Create the course
         Course::create([
             'teacher_id' => auth()->id(),
             'title' => $validate['title'],
             'duration' => $validate['duration'],
-            'thumbnail' => $thumbnailName ?? null,
-            'date' => $validate['date'],
-            'time' => $validate['time'],
+            'date' => $validate['date'] ?? null,
+            'time' => $validate['time'] ?? null,
             'type' => $validate['type'],
             'description' => $validate['description'],
-            'video_url' => $validate['video_url'],
-            'audio_url' => $validate['audio_url'],
-            'link' => $uploadName ?? null,
-            'slug' => Str::slug($validate['title']),
+            'link' => $validate['link'] ?? null,
+            'slug' => $validate['slug'],
         ]);
 
-        return redirect()->route('courses.index')->with('success', 'Course created successfully');
+        return redirect()->route('courses');
     }
 }

@@ -36,7 +36,7 @@ class Dashboard extends Component
             $assessments = $user->courses()->with('assessments')->latest()->take(3)->get();
             return view('livewire.dashboard', [
                 'students' => $students,
-                'courses' => $courses, 'assessment' => $assessments
+                'courses' => $courses, 'assessment' => $assessments, 'teachers' => []
             ]);
         }
 

@@ -20,62 +20,32 @@ Route::post('/logout', function () {
 
 Route::middleware('auth')->group(function () {
 
-    Route::controller(DashboardController::class)->group(function () {
-        Route::get('dashboard', 'index');
-    });
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 
-    Route::controller(StudentsController::class)->group(function () {
-        Route::get('students', 'index')->name('students')
-            ->can('teacher-or-admin-access');
+    Route::get('students', [StudentsController::class, 'index'])->name('students')
+        ->can('teacher-or-admin-access');
 
-        Route::get('students/{id}', 'show');
-    })->middleware(['can:admin-access', 'can:teacher-access']);
+    Route::get('courses', [CoursesController::class, 'index'])->name('courses');
+    Route::get('courses/create', [CoursesController::class, 'create'])->name('courses.create')->can('teacher-access');
+    Route::post('courses/store', [CoursesController::class, 'store'])->name('courses.store')->can('teacher-access');
+    Route::get('courses/{id}', [CoursesController::class, 'show'])->name('courses.show');
 
-    Route::controller(CoursesController::class)->group(function () {
 
-        Route::get('courses', 'index');
+    Route::get('notices', [NoticesController::class, 'index'])->name('notices');
 
-        Route::middleware('can:teacher-access')->group(function () {
-            Route::get('courses/create', 'create');
-            Route::post('courses/store', 'store');
-        });
 
-        Route::middleware('can:admin-access')->group(function () {
-            Route::post('courses/addStudents', 'assignStudents');
-        });
-
-        Route::get('courses/{id}', 'show');
-    });
-
-    Route::controller(NoticesController::class)->group(function () {
-
-        Route::get('notices', 'index');
-
-        Route::middleware(['can:admin-access', 'can:teacher-access'])->group(function () {
-            Route::get('notices/create', 'create');
-            Route::post('notices/store', 'store');
-        });
-    });
-
-    Route::controller(TeachersController::class)->group(function () {
-        Route::get('teachers', 'index');
-        Route::get('teachers/create', 'create');
-        Route::post('teachers/store', 'store');
-        Route::get('teachers/{id}', 'show');
-    })->middleware('can:admin-access');
+    Route::get('teachers', [TeachersController::class, 'index'])->name('teachers')->can('admin-access');
 
     Route::controller(AssessmentsController::class)->group(function () {
-        Route::get('assessments', 'index');
-        Route::get('assessments/create', 'create')->can('teacher-access');
-        Route::post('assessments/store', 'store')->can('teacher-access');
-        Route::get('assessments/{id}', 'show');
+        Route::get('assessments', 'index')->name('assessments');
+        Route::get('assessments/create', 'create')->can('teacher-access')->name('assessments.create');
+        Route::get('assessments/{id}', 'show')->name('assessments.show');
     })->middleware(['can:teacher-access', 'can:students-access']);
 
-    Route::controller(GradesController::class)->group(function () {
-        Route::get('grades', 'index');
-    })->middleware('can:students-access');
+    Route::get('grades', [GradesController::class, 'index'])->name('grades')->can('students-access');
+
 });
 
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

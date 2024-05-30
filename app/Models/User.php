@@ -141,12 +141,24 @@ class User extends Authenticatable
 
     public function courses()
     {
+
         if ($this->isTeacher()) {
             return $this->hasMany(Course::class, 'teacher_id');
         }
 
         if ($this->isStudent()) {
             return $this->belongsToMany(Course::class, 'course_student');
+        }
+
+        return null;
+    }
+
+    public function getStudentCourses($studentId)
+    {
+
+        $student = User::find($studentId);
+        if ($student && $student->isStudent()) {
+            return $student->courses()->get();
         }
 
         return null;

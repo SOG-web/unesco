@@ -22,7 +22,6 @@ class AuthLayout extends Component
      */
     public function render(): View|Closure|string
     {
-        $userRole = auth()->user()->role;
 
         $user = User::find(auth()->id());
 
@@ -33,7 +32,6 @@ class AuthLayout extends Component
         return view('layouts.auth-layout', [
             'notices' => $notices,
             'activities' => $activities,
-            'userRole' => $userRole
         ]);
     }
 }
