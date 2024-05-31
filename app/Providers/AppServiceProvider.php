@@ -53,7 +53,7 @@ class AppServiceProvider extends ServiceProvider
          * @return boolean
          */
         Gate::define('students-access', function (User $user) {
-            return $user->role === 'student';
+            return $user->role === 'students';
         });
 
         /**
