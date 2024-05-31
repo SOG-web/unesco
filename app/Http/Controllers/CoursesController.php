@@ -12,6 +12,8 @@ class CoursesController extends Controller
     {
         $userRole = auth()->user()->role;
 
+        $user = User::find(auth()->id());
+
 
         if ($userRole === 'admin') {
             $courses = Course::latest()->get();
@@ -30,8 +32,16 @@ class CoursesController extends Controller
         }
 
         if ($userRole === 'students') {
-            $student = User::where('id', auth()->id())->with(['courses.progress'])->first();
-            $courses = $student->courses()->get();
+            $userId = auth()->id();
+            $courses = $user->courses()
+                ->with([
+                    'assessments', 'progress' => function ($query) use ($userId) {
+                        $query->where('student_id', $userId);
+                    }
+                ])
+                ->latest()
+                ->take(3)
+                ->get();
 
             return view('courses.index', [
                 'courses' => $courses
@@ -68,7 +78,8 @@ class CoursesController extends Controller
             return view('courses.show', [
                 'course' => $course,
                 'progress' => $progress,
-                'teacher' => $teacher
+                'teacher' => $teacher,
+                'students' => []
             ]);
         }
 
@@ -85,36 +96,4 @@ class CoursesController extends Controller
         return view('courses.create');
     }
 
-    public function store()
-    {
-//        if (!auth()->user()->isTeacher()) {
-//            abort(401);
-//        }
-
-        $validate = request()->validate([
-            'title' => ['required', 'string', 'max:255',],
-            'duration' => ['required', 'string'],
-            'date' => ['nullable', 'date'],
-            'time' => ['nullable', 'string'],
-            'type' => ['required', 'string'],
-            'description' => ['required', 'string'],
-            'link' => ['nullable', 'string'],
-            'slug' => ['required', 'string'],
-        ]);
-
-        // Create the course
-        Course::create([
-            'teacher_id' => auth()->id(),
-            'title' => $validate['title'],
-            'duration' => $validate['duration'],
-            'date' => $validate['date'] ?? null,
-            'time' => $validate['time'] ?? null,
-            'type' => $validate['type'],
-            'description' => $validate['description'],
-            'link' => $validate['link'] ?? null,
-            'slug' => $validate['slug'],
-        ]);
-
-        return redirect()->route('courses');
-    }
 }

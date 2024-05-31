@@ -72,6 +72,6 @@ class Course extends Model
 
     public function progress()
     {
-        return $this->hasOne(Progress::class, 'course_id')->where('student_id', $this->pivot->user_id);
+        return $this->hasMany(Progress::class, 'course_id');
     }
 }

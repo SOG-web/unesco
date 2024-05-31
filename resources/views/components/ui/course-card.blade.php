@@ -1,7 +1,7 @@
 @php
     use Carbon\Carbon;
 
-    $teacherData = \App\Models\User::find($teacher)->get()->first();
+    $teacherData = \App\Models\User::where('id', $teacher)->get()->first();
 
     $uniqueId = $id;
 @endphp

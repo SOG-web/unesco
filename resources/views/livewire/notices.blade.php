@@ -22,5 +22,9 @@
                     label="Add New Student" @click="$wire.createNotice = true"/>
             @endif
         </div>
+        <div class="w-full flex items-center justify-center text-[24px] text-primary font-medium">Coming
+            Soon
+        </div>
+
     </div>
 </div>

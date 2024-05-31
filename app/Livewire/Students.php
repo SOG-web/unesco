@@ -26,7 +26,15 @@ class Students extends Component
 
         $user = auth()->user();
 
-        $students = $user->students()->get();
+        $courses = $user->courses()->with('students')->latest()->get();
+
+        $students = collect();
+
+        foreach ($courses as $course) {
+            $students = $students->merge($course->students);
+        }
+
+        $students = $students->unique('id');
 
         return view('livewire.students', [
             'students' => $students,

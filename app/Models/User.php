@@ -166,7 +166,7 @@ class User extends Authenticatable
 
     public function isStudent()
     {
-        return $this->role === 'student';
+        return $this->role === 'students';
     }
 
     public function progress()
