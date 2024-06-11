@@ -146,7 +146,8 @@
                 @if($course->type == 'link')
                     <div class="w-full flex flex-col gap-[10px] justify-start items-start">
                         <h1 class="font-semibold text-[13px] leading-[21px] text-text-5 uppercase">Link:</h1>
-                        <p class="font-normal text-[24px] leading-[36px] text-secondary">{{ $course->link }}</p>
+                        <a href="{{ $course->link }}" target="_blank"
+                           class="font-normal text-[24px] leading-[36px] text-secondary">{{ $course->link }}</a>
                     </div>
 
                     <div class="w-full flex flex-col gap-[10px] justify-start items-start">

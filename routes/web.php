@@ -5,12 +5,25 @@ use App\Http\Controllers\CoursesController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GradesController;
 use App\Http\Controllers\NoticesController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\SessionController;
 use App\Http\Controllers\StudentsController;
 use App\Http\Controllers\TeachersController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
+
+Route::get('/', [SessionController::class, 'create']);
+
+Route::middleware('guest')->group(function () {
+    Route::get('login', [SessionController::class, 'create'])->name('login');
+    Route::post('login', [SessionController::class, 'store']);
+
+    Route::get('register', [RegisterController::class, 'create'])->name('register');
+    Route::post('register', [RegisterController::class, 'store']);
+});
+
+Route::middleware('auth')->group(function () {
+    Route::post('logout', [SessionController::class, 'destroy']);
 });
 
 Route::post('/logout', function () {
@@ -47,5 +60,3 @@ Route::middleware('auth')->group(function () {
 
 });
 
-
-require __DIR__.'/auth.php';

@@ -26,15 +26,19 @@ class Students extends Component
 
         $user = auth()->user();
 
-        $courses = $user->courses()->with('students')->latest()->get();
-
         $students = collect();
 
-        foreach ($courses as $course) {
-            $students = $students->merge($course->students);
-        }
+        if ($user->role == 'teacher') {
+            $courses = $user->courses()->with('students')->latest()->get();
 
-        $students = $students->unique('id');
+            foreach ($courses as $course) {
+                $students = $students->merge($course->students);
+            }
+
+            $students = $students->unique('id');
+        } else {
+            $students = User::where('role', 'students')->get();
+        }
 
         return view('livewire.students', [
             'students' => $students,
