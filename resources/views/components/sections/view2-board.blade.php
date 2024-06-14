@@ -1,4 +1,4 @@
-@props(['teachers', 'students', 'assessment', 'title1' => 'Teachers', 'title2' => 'Students'])
+@props(['teachers', 'students', 'assessments', 'title1' => 'Teachers', 'title2' => 'Students'])
 
 <div class="w-full max-w-[692px] flex flex-col md:flex-row items-center md:items-start justify-between gap-[44px]">
     <div class="w-full flex flex-col items-center justify-start gap-[16px]">
@@ -7,7 +7,9 @@
         @if($teachers)
             <x-ui.view3-board type="course" :lists="$teachers"/>
         @else
-            <livewire:type-one-assessment-card/>
+            @foreach($assessments as $assessment)
+                <livewire:type-one-assessment-card :assessment="$assessment"/>
+            @endforeach
         @endif
     </div>
     <div

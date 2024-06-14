@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Assessment;
+
 class AssessmentsController extends Controller
 {
     public function index()
@@ -21,6 +23,8 @@ class AssessmentsController extends Controller
 
     public function show($id)
     {
-        return view('assessments.show');
+        $assessment = Assessment::where('id', $id)->with('students')->firstOrFail();
+
+        return view('assessments.show', ['assessment' => $assessment]);
     }
 }

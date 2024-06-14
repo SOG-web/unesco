@@ -7,12 +7,13 @@
     <div class="w-full max-w-[518px] justify-start gap-[10px] flex flex-row items-center  mb-[9px] flex-wrap">
         <p class="text-primary"> < </p>
         <h1 class="font-poppins font-semibold text-text-1 text-[16px] md:text-[18px] lg:text-[22px]">
-            {{ $currentStep === 1 ? 'Add New Assessment' : 'Add Question 1 of '. $number_of_question_allowed}}
+            {{ $this->getHeadingTextProperty() }}
         </h1>
     </div>
     <template x-if="currentStep === 1">
         <div class="w-full max-w-[518px]">
             <x-form wire:submit="saveStepOne" class="w-full gap-[32px] mb-[20px]">
+                <x-input required label="Title" wire:model="title" placeholder="Enter the Assessment Title"/>
                 <x-select placeholder="Select a Course" required label="Select Course" :options="$courses"
                           wire:model="selectedCourse"/>
                 <div class="flex flex-col items-start justify-start gap-[10px] w-full">
@@ -46,29 +47,52 @@
         <div class="w-full max-w-[518px]">
             <template x-if="add_question === true">
                 <x-form class="w-full gap-[32px] mb-[20px]">
-                    @if($type === 'multiple-choice')
-                        <x-textarea
-                            label="Enter Question"
-                            required
-                            wire:model="multi_choice_question"
-                            placeholder="Type or paste question here....."
-                            hint="Max 1000 chars"
-                            rows="7"
-                        />
-                        <x-input required label="Option A" wire:change.debounce="setCorrectOption" wire:model="option_a"
-                                 placeholder="Enter Option A"/>
-                        <x-input required label="Option B" wire:change.debounce="setCorrectOption" wire:model="option_b"
-                                 placeholder="Enter Option B"/>
-                        <x-input required label="Option C" wire:change.debounce="setCorrectOption" wire:model="option_c"
-                                 placeholder="Enter Option C"/>
-                        <x-input required label="Option D" wire:change.debounce="setCorrectOption" wire:model="option_d"
-                                 placeholder="Enter Option D"/>
-                        <x-select required placeholder="Select correct option" required label="Correct Option"
-                                  :options="$correct_options"
-                                  hint="Not seeing option? Wait till it update and click again."
-                                  wire:model="correct_option"/>
-                    @endif
-                    @if($type === 'theory')
+                    <template x-if="type === 'multiple-choice'">
+                        <div class="w-full gap-[32px]">
+                            <x-textarea
+                                label="Enter Question"
+                                required
+                                wire:model="multi_choice_question"
+                                placeholder="Type or paste question here....."
+                                hint="Max 1000 chars"
+                                rows="7"
+                            />
+                            <div class="mt-[32px] w-full">
+                                <x-input required label="Option A" wire:change.debounce="setCorrectOption"
+                                         wire:model="option_a"
+                                         placeholder="Enter Option A"/>
+                            </div>
+                            <div class="mt-[32px] w-full">
+                                <x-input required label="Option B"
+                                         wire:change.debounce="setCorrectOption"
+                                         wire:model="option_b"
+                                         placeholder="Enter Option B"/>
+                            </div>
+
+                            <div class="mt-[32px] w-full">
+                                <x-input required label="Option C"
+                                         wire:change.debounce="setCorrectOption"
+                                         wire:model="option_c"
+                                         placeholder="Enter Option C"/>
+                            </div>
+
+                            <div class="mt-[32px] w-full">
+                                <x-input required label="Option D"
+                                         wire:change.debounce="setCorrectOption"
+                                         wire:model="option_d"
+                                         placeholder="Enter Option D"/>
+                            </div>
+
+                            <div class="mt-[32px] w-full">
+                                <x-select required placeholder="Select correct option" required
+                                          label="Correct Option"
+                                          :options="$correct_options"
+                                          hint="Not seeing option? Wait till it update and click again."
+                                          wire:model="correct_option"/>
+                            </div>
+                        </div>
+                    </template>
+                    <template x-if="type === 'theory'">
                         <x-textarea
                             label="Enter Question"
                             wire:model="theory_question"
@@ -76,70 +100,73 @@
                             hint="Max 1000 chars"
                             rows="7"
                         />
-                    @endif
+                    </template>
                     <x-button
-                        class="mt-[16px] select-none rounded-lg bg-primary w-full max-w-[200px] py-3.5 px-7 text-center align-middle font-poppins text-sm font-bold uppercase text-white shadow-md leading-snug shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                        class="mt-[16px] select-none rounded-lg bg-primary w-full max-w-[250px] py-3.5 px-7 text-center align-middle font-poppins text-sm font-bold uppercase text-white shadow-md leading-snug shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                         label="Add question >" wire:click="addQuestion"
                         spinner="addQuestion"/>
                 </x-form>
             </template>
-            <template x-if="add_question === false && type === 'multiple-choice'">
+            <template x-if="add_question === false">
                 <div class="w-full flex flex-col gap-[30px] items-center justify-center">
-                    @foreach($questions as $question)
+                    @foreach($questions as  $index => $question)
                         <div class="w-full flex flex-col gap-[20px] items-center justify-center">
+                            <p class="text-[#595B61] leading-6 text-[14px] md:text-[16px] font-semibold">
+                                Question {{ $loop->iteration }}:</p>
                             <p class="text-[#9E9E9E] text-[12px] md:text-[14px] leading-[18px] md:leading-[24px] font-normal">{{ $question['question'] }}</p>
-                            <div class="w-full flex flex-col gap-[10px] items-center justify-center">
-                                <div class="flex w-full flex-row items-center justify-center gap-[20px]">
-                                    <div class="w-full flex flex-row items-center justify-start gap-[10px]">
-                                        <div
-                                            class="w-[50px] h-[50px] bg-[#F2F2F2] rounded-[10px] flex items-center justify-center">
-                                            <p class="text-[#9E9E9E] text-[12px] md:text-[14px] leading-[18px] md:leading-[24px] font-normal">
-                                                A</p>
+                            @if($this->getIsShowMulti())
+                                <div class="w-full flex flex-col gap-[10px] items-center justify-center">
+                                    <div class="flex w-full flex-row items-center justify-center gap-[20px]">
+                                        <div class="w-full flex flex-row items-center justify-start gap-[10px]">
+                                            <div
+                                                class="w-[50px] h-[50px] bg-[#F2F2F2] rounded-[10px] flex items-center justify-center">
+                                                <p class="text-[#9E9E9E] text-[12px] md:text-[14px] leading-[18px] md:leading-[24px] font-normal">
+                                                    A</p>
+                                            </div>
+                                            <p class="text-[#9E9E9E] max-w-[200px] truncate text-[12px] md:text-[14px] leading-[18px] md:leading-[24px] font-normal">{{ $question['options']['option_a'] }}</p>
                                         </div>
-                                        <p class="text-[#9E9E9E] max-w-[200px] truncate text-[12px] md:text-[14px] leading-[18px] md:leading-[24px] font-normal">{{ $question['options']['option_a'] }}</p>
+                                        <div class="w-full flex flex-row items-center justify-start gap-[10px]">
+                                            <div
+                                                class="w-[50px] h-[50px] bg-[#F2F2F2] rounded-[10px] flex items-center justify-center">
+                                                <p class="text-[#9E9E9E] text-[12px] md:text-[14px] leading-[18px] md:leading-[24px] font-normal">
+                                                    B</p>
+                                            </div>
+                                            <p class="text-[#9E9E9E] max-w-[200px] truncate text-[12px] md:text-[14px] leading-[18px] md:leading-[24px] font-normal">{{ $question['options']['option_b'] }}</p>
+                                        </div>
                                     </div>
-                                    <div class="w-full flex flex-row items-center justify-start gap-[10px]">
-                                        <div
-                                            class="w-[50px] h-[50px] bg-[#F2F2F2] rounded-[10px] flex items-center justify-center">
-                                            <p class="text-[#9E9E9E] text-[12px] md:text-[14px] leading-[18px] md:leading-[24px] font-normal">
-                                                B</p>
+                                    <div class="flex w-full flex-row items-center justify-center gap-[20px]">
+                                        <div class="w-full flex flex-row items-center justify-start gap-[10px]">
+                                            <div
+                                                class="w-[50px] h-[50px] bg-[#F2F2F2] rounded-[10px] flex items-center justify-center">
+                                                <p class="text-[#9E9E9E] text-[12px] md:text-[14px] leading-[18px] md:leading-[24px] font-normal">
+                                                    C</p>
+                                            </div>
+                                            <p class="text-[#9E9E9E] max-w-[200px] truncate text-[12px] md:text-[14px] leading-[18px] md:leading-[24px] font-normal">{{ $question['options']['option_c'] }}</p>
                                         </div>
-                                        <p class="text-[#9E9E9E] max-w-[200px] truncate text-[12px] md:text-[14px] leading-[18px] md:leading-[24px] font-normal">{{ $question['options']['option_b'] }}</p>
+                                        <div class="w-full flex flex-row items-center justify-start gap-[10px]">
+                                            <div
+                                                class="w-[50px] h-[50px] bg-[#F2F2F2] rounded-[10px] flex items-center justify-center">
+                                                <p class="text-[#9E9E9E] text-[12px] md:text-[14px] leading-[18px] md:leading-[24px] font-normal">
+                                                    D</p>
+                                            </div>
+                                            <p class="text-[#9E9E9E] max-w-[200px] truncate text-[12px] md:text-[14px] leading-[18px] md:leading-[24px] font-normal">{{ $question['options']['option_d'] }}</p>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="flex w-full flex-row items-center justify-center gap-[20px]">
-                                    <div class="w-full flex flex-row items-center justify-between gap-[10px]">
-                                        <div
-                                            class="w-[50px] h-[50px] bg-[#F2F2F2] rounded-[10px] flex items-center justify-center">
-                                            <p class="text-[#9E9E9E] text-[12px] md:text-[14px] leading-[18px] md:leading-[24px] font-normal">
-                                                C</p>
-                                        </div>
-                                        <p class="text-[#9E9E9E] max-w-[200px] truncate text-[12px] md:text-[14px] leading-[18px] md:leading-[24px] font-normal">{{ $question['options']['option_c'] }}</p>
-                                    </div>
-                                    <div class="w-full flex flex-row items-center justify-between gap-[10px]">
-                                        <div
-                                            class="w-[50px] h-[50px] bg-[#F2F2F2] rounded-[10px] flex items-center justify-center">
-                                            <p class="text-[#9E9E9E] text-[12px] md:text-[14px] leading-[18px] md:leading-[24px] font-normal">
-                                                D</p>
-                                        </div>
-                                        <p class="text-[#9E9E9E] max-w-[200px] truncate text-[12px] md:text-[14px] leading-[18px] md:leading-[24px] font-normal">{{ $question['options']['option_d'] }}</p>
-                                    </div>
-                                </div>
-                            </div>
+                            @endif
                         </div>
                     @endforeach
-                    @if(count($questions) !== $number_of_question_allowed)
+                    @if($this->getIsButtonDisabledProperty2())
                         <x-button
                             class="mt-[16px] select-none rounded-lg bg-primary w-full max-w-[250px] py-3.5 px-5 text-center align-middle font-poppins text-sm font-bold uppercase text-white shadow-md leading-snug shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                            label="+ Add next question >" wire:click="add_question = true"
+                            label="Add next question >" wire:click="add_question = true"
                         />
                     @endif
                 </div>
             </template>
-            @if(count($questions) > 0)
+            @if($this->getIsCreateAssessmentButtonProperty() && $this->getIsButtonDisabledProperty())
                 <x-button
-                    class="mt-[16px] mx-auto select-none rounded-lg bg-primary w-full max-w-[250px] py-3.5 px-5 text-center align-middle font-poppins text-sm font-bold uppercase text-white shadow-md leading-snug shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                    disabled="{{ count($questions) !== $number_of_question_allowed }}"
+                    class="mt-[20px] mx-auto select-none rounded-lg bg-primary w-full max-w-[250px] py-3.5 px-5 text-center align-middle font-poppins text-sm font-bold uppercase text-white shadow-md leading-snug shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                     label="Submit Assessment" wire:click="createAssessment"
                     spinner="createAssessment"/>
             @endif

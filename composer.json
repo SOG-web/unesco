@@ -11,6 +11,7 @@
         "blade-ui-kit/blade-ui-kit": "^0.6.2",
         "codeat3/blade-carbon-icons": "^2.24",
         "codeat3/blade-fluentui-system-icons": "*",
+        "codeat3/blade-google-material-design-icons": "^1.19",
         "codeat3/blade-phosphor-icons": "^2.2",
         "davidhsianturi/blade-bootstrap-icons": "^1.5",
         "itsmalikjones/blade-iconic": "^1.3",

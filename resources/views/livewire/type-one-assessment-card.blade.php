@@ -8,9 +8,15 @@ new class extends Component {
     public $date = '04 Jan, 09:20AM';
     public $status = 'active';
     public $grading = 1;
+    public $id = 1;
 
-    public function mount()
+    public function mount($assessment)
     {
+        $this->title = $assessment['title'];
+        $this->date = $assessment['end_date'];
+        $this->status = $assessment['status'];
+        $this->grading = count($assessment['students']);
+        $this->id = $assessment['id'];
         if ($this->status === 'active') {
             $this->toggle = true;
         } else {
@@ -18,9 +24,16 @@ new class extends Component {
         }
     }
 
+    public function goTo()
+    {
+        return redirect()->route('assessment.show', $this->id);
+    }
+
 }; ?>
 
-<div class="max-w-[384px] pl-4 pr-4 justify-between w-full items-center flex flex-row h-[75px] bg-white rounded-lg">
+<div
+    class="max-w-[384px] pl-4 pr-4 justify-between w-full items-center flex flex-row h-[75px] bg-white rounded-lg cursor-pointer"
+    wire:click="goTo">
     <div class="flex flex-row items-center justify-start gap-[21px]">
         <x-ui.squared-icon bg="bg-[#F3E4FF]">
             <svg class="w-[20px] h-[20px] text-[#8F00FF]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"

@@ -1,11 +1,3 @@
-<?php
-
-use Livewire\Volt\Component;
-
-new class extends Component {
-    public String $selectedTab = 'all-tab';
-}; ?>
-
 <div
     class="w-full max-w-[692px] max-h-[80dvh] overflow-y-scroll scroll-smooth py-[31px] flex flex-col items-center justify-start gap-[25px] bg-white rounded-[10px] px-[21px] xl:px-[45px]">
     <div
@@ -24,23 +16,33 @@ new class extends Component {
         @endif
     </div>
     <x-custom-tabs label-class="font-semibold text-[14px] text-[#9E9E9E]" label-div-class="flex overflow-x-auto w-full"
-                   active-class='bg-[#DAD9F5] rounded-[6px] text-[#605C9D]'
+                   active-class='bg-[#DAD9F5] rounded-[6px] !text-[#605C9D]'
                    wire:model="selectedTab"
                    class="!border-none w-full">
         <x-tab id="all-tab" name="all-tab" label="All" class="!border-none">
             <div class="w-full flex flex-col items-start justify-start gap-4 !border-none">
-                <div>All</div>
+                @foreach($allAssessments as $assessment)
+                    <x-ui.assessment-card :assessment="$assessment" :show="true"/>
+                @endforeach
             </div>
         </x-tab>
-        <x-tab name="graded-tab" label="Graded">
-            <div>Tricks</div>
+        <x-tab id="graded" name="graded" label="Graded">
+            <div class="w-full flex flex-col items-start justify-start gap-4">
+                @foreach($gradedAssessments as $assessment)
+                    <x-ui.assessment-card :assessment="$assessment" :show="true"/>
+                @endforeach
+            </div>
         </x-tab>
-        <x-tab name="ungraded-tab">
+        <x-tab id="ungraded" name="ungraded">
             <x-slot:label>
                 Ungraded
-                <x-badge value="3" class="badge-error text-white"/>
+                <x-badge value="{{ count($ungradedAssessments) }}" class="badge-error text-white"/>
             </x-slot:label>
-            <div>Musics</div>
+            <div class="w-full flex flex-col items-start justify-start gap-4">
+                @foreach($ungradedAssessments as $assessment)
+                    <x-ui.assessment-card :assessment="$assessment" :show="true"/>
+                @endforeach
+            </div>
         </x-tab>
     </x-custom-tabs>
 </div>

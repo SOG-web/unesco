@@ -176,6 +176,9 @@ class User extends Authenticatable
 
     public function assessments()
     {
+        if ($this->isTeacher()) {
+            return $this->hasMany(Assessment::class, 'teacher_id');
+        }
         return $this->belongsToMany(Assessment::class, 'assessment_student');
     }
 

@@ -35,15 +35,11 @@ class Dashboard extends Component
         if ($userRole === 'teacher') {
             $courses = $user->courses()->with(['students', 'assessments'])->latest()->take(3)->get();
             $students = collect();
-            $assessments = collect();
+            $assessments = auth()->user()->assessments()->with('students.pivot')->get();
             foreach ($courses as $course) {
                 $students = $students->merge($course->students);
             }
-            foreach ($courses as $course) {
-                $assessments = $assessments->merge($course->assessments);
-            }
             $students = $students->unique('id');
-            $assessments = $assessments->unique('id');
             return view('livewire.dashboard', [
                 'students' => $students->take(3),
                 'courses' => $courses, 'assessment' => $assessments->take(3), 'teachers' => [], 'grades' => []
