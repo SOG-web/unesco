@@ -30,10 +30,10 @@
                 <x-select placeholder="Multiple-choice or theory (select one)" required label="Select assessment type"
                           :options="$types"
                           wire:model="type"/>
-                <template x-if="type === 'multiple-choice'">
-                    <x-input label="Marks per question (for multiple choice question types only)"
-                             wire:model="mark_per_question" type="number"/>
-                </template>
+
+                <x-input label="Marks per question (for multiple choice question types only)"
+                         wire:model="mark_per_question" type="number"/>
+
                 <x-select placeholder="Yes or no (select one)" required
                           label="Show results immediately after assessment?" :options="$show_results"
                           wire:model="show_result"/>

@@ -24,7 +24,7 @@ new class extends Component {
     <div
         class="w-full max-w-[692px] max-h-[80dvh] overflow-y-scroll scroll-smooth py-[31px] flex flex-col items-center justify-start gap-[25px] bg-white rounded-[10px] px-[21px] xl:px-[45px]">
         <div
-            class="w-full self-start flex flex-row items-center justify-between mb-[9px] flex-wrap">
+            class="w-full self-start flex flex-row items-center justify-between gap-[30px] mb-[9px] flex-wrap">
             <h1 class="font-poppins font-semibold text-text-1 text-[16px] md:text-[18px] lg:text-[22px] cursor-pointer"
                 wire:click="goBack">
                 < View Assessment</h1>
