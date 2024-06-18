@@ -67,7 +67,6 @@ class StartAssessment extends Component
 
             $answers = $this->theoryAnswers;
         } else {
-            dd($this->assessment);
             // validate if all questions are answered
             if (count($this->multiChoiceAnswers) !== count($this->questions)) {
                 $this->addError('answer', 'Please answer all questions');
@@ -77,9 +76,9 @@ class StartAssessment extends Component
 
             foreach ($this->multiChoiceAnswers as $index => $answer) {
                 $question = $this->questions[$index];
-                $correctAnswer = $question->answers[$question->correct_answer];
+                $correctAnswer = $question->answer;
                 if ($answer['answer'] === $correctAnswer) {
-                    $totalMark += $question->mark;
+                    $totalMark += $this->assessment->mark_per_questions;
                 }
             }
 
@@ -99,6 +98,8 @@ class StartAssessment extends Component
         ]);
 
         session()->flash('success', 'Assessment submitted successfully');
+
+        dd($answers, $totalMark, $this->assessment->type === 'theory' ? null : $totalMark, now(), true);
 
         // to redirect to the assessments page
         return redirect()->route('assessments');
