@@ -53,6 +53,7 @@ Route::middleware('auth')->group(function () {
     Route::controller(AssessmentsController::class)->group(function () {
         Route::get('assessments', 'index')->name('assessments');
         Route::get('assessments/create', 'create')->can('teacher-access')->name('assessments.create');
+        Route::get('assessments/start/{id}', 'start')->name('assessments.start');
         Route::get('assessments/{id}', 'show')->name('assessments.show');
     })->middleware(['can:teacher-access', 'can:students-access']);
 

@@ -16,15 +16,25 @@ class AssessmentsController extends Controller
         return view('assessments.create');
     }
 
-    public function store()
+    public function start($id)
     {
 
+        $assessment = Assessment::where('id', $id)->firstOrFail();
+
+        return view('assessments.start', ['assessment' => $assessment]);
     }
 
     public function show($id)
     {
-        $assessment = Assessment::where('id', $id)->with('students')->firstOrFail();
+        if (auth()->user()->role === 'teacher') {
+            $assessment = Assessment::where('id', $id)->with('students')->firstOrFail();
+
+            return view('assessments.show', ['assessment' => $assessment]);
+        }
+
+        $assessment = Assessment::where('id', $id)->firstOrFail();
 
         return view('assessments.show', ['assessment' => $assessment]);
+
     }
 }

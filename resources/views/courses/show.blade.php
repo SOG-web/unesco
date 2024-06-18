@@ -63,7 +63,7 @@
                 @endif
                 @if($course->type == 'audio' || $course->type == 'video')
                     <div class="w-full flex flex-col justify-between items-end gap-4 md:gap-[31px]">
-                        @if($course->type == 'video' && auth()->user()->role == 'student')
+                        @if($course->type == 'video' && auth()->user()->role == 'students')
                             <video class="w-full h-[185px] md:h-[220px] lg:h-[302px] rounded-[8px]" controls>
                                 <source src="{{ $course->link }}" type="video/mp4">
                                 Your browser does not support the video tag.
@@ -159,10 +159,9 @@
                 @endif
             </div>
             @if(auth()->user()->role === 'students')
-                @dd($course->assessments)
                 <div class="flex flex-row items-center justify-between w-full">
-                    <div class="flex flex-col gap-[10px] justify-start items-start">
-                        <div class="w-full flex flex-row justify-between gap-[20px] items-start">
+                    <div class="flex flex-col gap-[20px] flex-wrap justify-start items-start">
+                        <div class="w-full flex flex-row justify-between gap-[40px] items-start">
                             <h1 class="font-medium text-[13px] leading-[21px] text-text-5">Course
                                 Progress</h1>
                             <p class="font-medium text-[13px] leading-[21px] text-text-5">{{(int) $progress->progress}}
@@ -171,9 +170,16 @@
                         <x-progress value="{{ (int) $progress->progress }}" max="100"
                                     class="w-full max-w-[290px] h-1.5 {{ (int) $progress->progress < 20 ? 'progress-error' : ((int) $progress->progress < 50 ? 'progress-warning' : 'progress-success') }}"/>
                     </div>
-                    <div class="flex flex-col gap-[10px] justify-start items-start">
-                        <h1 class="font-semibold text-[13px] leading-[21px] text-text-5 uppercase">Status:</h1>
-                        <p class="font-normal text-[24px] leading-[36px] text-secondary">{{ $course->status }}</p>
+                    <div class="flex flex-col justify-start items-start">
+                        <form class="hidden" method="POST" id="createForm"
+                              action="{{ route('assessments.show', ['id'=>$course->assessments[0]->id]) }}">
+                            @csrf
+                            @method('GET')
+                        </form>
+                        <button type="submit" form="createForm" id="createForm"
+                                class="rounded-[10px] px-[15px] bg-primary py-[12px] text-white font-medium text-[12px]"
+                        >Take assessment
+                        </button>
                     </div>
                 </div>
             @endif
