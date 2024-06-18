@@ -170,17 +170,30 @@
                         <x-progress value="{{ (int) $progress->progress }}" max="100"
                                     class="w-full max-w-[290px] h-1.5 {{ (int) $progress->progress < 20 ? 'progress-error' : ((int) $progress->progress < 50 ? 'progress-warning' : 'progress-success') }}"/>
                     </div>
-                    <div class="flex flex-col justify-start items-start">
-                        <form class="hidden" method="POST" id="createForm"
-                              action="{{ route('assessments.show', ['id'=>$course->assessments[0]->id]) }}">
-                            @csrf
-                            @method('GET')
-                        </form>
-                        <button type="submit" form="createForm" id="createForm"
-                                class="rounded-[10px] px-[15px] bg-primary py-[12px] text-white font-medium text-[12px]"
-                        >Take assessment
-                        </button>
-                    </div>
+                    @if((int) $progress->progress !== 100)
+                        @if(count($course->assessments) === 0)
+                            <div class="flex flex-col justify-start items-start">
+                                <p class="font-medium text-[13px] leading-[21px] text-text-5">No Assessment yet</p>
+                            </div>
+                        @else
+                            <div class="flex flex-col justify-start items-start">
+                                <form class="hidden" method="POST" id="createForm"
+                                      action="{{ route('assessments.show', ['id'=>$course->assessments[0]->id]) }}">
+                                    @csrf
+                                    @method('GET')
+                                </form>
+                                <button type="submit" form="createForm" id="createForm"
+                                        class="rounded-[10px] px-[15px] bg-primary py-[12px] text-white font-medium text-[12px]"
+                                >Take assessment
+                                </button>
+                            </div>
+                        @endif
+                    @else
+                        <div class="flex flex-col justify-start items-start">
+                            <p class="font-medium text-[13px] leading-[21px] text-gray-500">You have completed this
+                                course</p>
+                        </div>
+                    @endif
                 </div>
             @endif
         </div>

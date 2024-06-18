@@ -3,104 +3,114 @@
 >
     <div class="w-full max-w-[518px] self-start justify-between flex flex-row items-center  mb-[9px] flex-wrap">
         <h1 class="font-poppins font-semibold text-text-1 text-[16px] md:text-[18px] lg:text-[22px]">
-            < Time remaining: <span id="timer" class="text-red-500">00</span></h1>
-    </div>
-    <div class="w-full flex flex-col items-start justify-start gap-[12px] pt-8">
-        <p
-            class="font-semibold text-[24px] leading-[38px] tracking-tight-[0.3px]"
-        >
-            Question {{ $activeQuestion + 1 }} of {{ count($questions) }}
-        </p>
-        <div class="w-full flex flex-col items-start justify-center">
-            @error('all')
-            <p class="font-normal w-full text-center my-1.5 text-[16px] leading-[24px] text-red-500">
-                {{ $message }}
-            </p>
-            @enderror
-            @if($assessment->type === 'theory')
-                <p class="font-normal text-[16px] leading-[24px] text-[#272835]">
-                    {{ $questions[$activeQuestion]->question }}
-                </p>
-                <div class="w-full mt-4">
-                    <x-textarea
-                        label="Enter your answer"
-                        wire:model="answer"
-                        placeholder="Type or paste question here....."
-                        hint="Max 1000 chars"
-                        rows="7"
-                        required
-                    />
-                </div>
-
+            < Time remaining:
+            @if(!$completed)
+                <span id="timer" class="text-red-500">00</span>
+            @else
+                <span class="text-red-500">00</span>
             @endif
-            @if($assessment->type === 'multiple-choice')
-                <p class="font-normal text-[16px] leading-[24px] text-[#272835]">
-                    {{ $questions[$activeQuestion]->question }}
+        </h1>
+    </div>
+    @if(!$completed)
+        <div class="w-full flex flex-col items-start justify-start gap-[12px] pt-8">
+            <p
+                class="font-semibold text-[24px] leading-[38px] tracking-tight-[0.3px]"
+            >
+                Question {{ $activeQuestion + 1 }} of {{ count($questions) }}
+            </p>
+            <div class="w-full flex flex-col items-start justify-center">
+                @error('all')
+                <p class="font-normal w-full text-center my-1.5 text-[16px] leading-[24px] text-red-500">
+                    {{ $message }}
                 </p>
-                <div class="w-full flex flex-col pt-8 pb-8 gap-[16px]">
-                    @foreach($questions[$activeQuestion]->options as $index => $option)
-                        <x-button
-                            id="{{ $index }}"
-                            wire:key="{{ $index }}"
-                            spinner="setAnswer"
-                            wire:click="setAnswer('{{ $option }}')"
-                            class="w-full md:pl-[33px] pl-[29px] gap-[24px] rounded-[15px] items-center cursor-pointer focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none {{
+                @enderror
+                @if($assessment->type === 'theory')
+                    <p class="font-normal text-[16px] leading-[24px] text-[#272835]">
+                        {{ $questions[$activeQuestion]->question }}
+                    </p>
+                    <div class="w-full mt-4">
+                        <x-textarea
+                            label="Enter your answer"
+                            wire:model="answer"
+                            placeholder="Type or paste question here....."
+                            hint="Max 1000 chars"
+                            rows="7"
+                            required
+                        />
+                    </div>
+
+                @endif
+                @if($assessment->type === 'multiple-choice')
+                    <p class="font-normal text-[16px] leading-[24px] text-[#272835]">
+                        {{ $questions[$activeQuestion]->question }}
+                    </p>
+                    <div class="w-full flex flex-col pt-8 pb-8 gap-[16px]">
+                        @foreach($questions[$activeQuestion]->options as $index => $option)
+                            <x-button
+                                id="{{ $index }}"
+                                wire:key="{{ $index }}"
+                                spinner="setAnswer"
+                                wire:click="setAnswer('{{ $option }}')"
+                                class="w-full md:pl-[33px] pl-[29px] gap-[24px] rounded-[15px] items-center cursor-pointer focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none {{
                                 $answer === $option ? 'bg-[#7792AC] border-[1px] border-primary' : 'bg-[#E8EFF6]'}} md:pr-[44px] flex flex-row justify-start max-w-[510px] h-[61px]">
-                            <p
-                                class="font-normal leading-[18px] text-[12px] md:text-[16px] text-[#272835] md:leading-[24px]"
-                            >
-                                {{ chr(65 + ord(strtoupper(substr($index, -1))) - 65) }}.
-                            </p>
-                            {{--                            <input--}}
-                            {{--                                type="radio"--}}
-                            {{--                                id="option{{ $index }}"--}}
-                            {{--                                name="option"--}}
-                            {{--                                value="{{ $answer }}"--}}
-                            {{--                                wire:model.live="answer"--}}
-                            {{--                                class="font-normal leading-[18px] text-[12px] md:text-[16px] text-[#272835] md:leading-[24px]"--}}
-                            {{--                            />--}}
-                            <p
-                                class="font-normal leading-[18px] text-[12px] md:text-[16px] text-[#272835] md:leading-[24px]">
-                                {{ $option }}
-                            </p>
-                        </x-button>
-                    @endforeach
-                </div>
+                                <p
+                                    class="font-normal leading-[18px] text-[12px] md:text-[16px] text-[#272835] md:leading-[24px]"
+                                >
+                                    {{ chr(65 + ord(strtoupper(substr($index, -1))) - 65) }}.
+                                </p>
+                                {{--                            <input--}}
+                                {{--                                type="radio"--}}
+                                {{--                                id="option{{ $index }}"--}}
+                                {{--                                name="option"--}}
+                                {{--                                value="{{ $answer }}"--}}
+                                {{--                                wire:model.live="answer"--}}
+                                {{--                                class="font-normal leading-[18px] text-[12px] md:text-[16px] text-[#272835] md:leading-[24px]"--}}
+                                {{--                            />--}}
+                                <p
+                                    class="font-normal leading-[18px] text-[12px] md:text-[16px] text-[#272835] md:leading-[24px]">
+                                    {{ $option }}
+                                </p>
+                            </x-button>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
+        </div>
+        <div class="w-full flex flex-row items-start justify-start gap-2">
+            @if($activeQuestion !== count($questions) - 1)
+                <x-button
+                    class="mt-[16px] w-[151px] select-none rounded-lg bg-primary max-w-[250px] py-3.5 px-5 text-center align-middle font-poppins text-sm font-bold uppercase text-white shadow-md leading-snug shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                    label="next >" wire:click="nextQuestion"
+                    spinner="nextQuestion"
+                />
+            @endif
+            @if($activeQuestion !== 0)
+                <x-button
+                    class="mt-[16px] w-[151px] select-none rounded-lg bg-primary max-w-[250px] py-3.5 px-5 text-center align-middle font-poppins text-sm font-bold uppercase text-white shadow-md leading-snug shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                    label="< prev" wire:click="previousQuestion"
+                    spinner="previousQuestion"
+                />
+            @endif
+            @if($activeQuestion === count($questions) - 1)
+                <x-button
+                    class="mt-[16px] w-[151px] select-none rounded-lg bg-primary max-w-[250px] py-3.5 px-5 text-center align-middle font-poppins text-sm font-bold uppercase text-white shadow-md leading-snug shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                    label="Submit" wire:click="submitAssessment"
+                    spinner="submitAssessment"
+                />
             @endif
         </div>
-    </div>
-    <div class="w-full flex flex-row items-start justify-start gap-2">
-        @if($activeQuestion !== count($questions) - 1)
-            <x-button
-                class="mt-[16px] w-[151px] select-none rounded-lg bg-primary max-w-[250px] py-3.5 px-5 text-center align-middle font-poppins text-sm font-bold uppercase text-white shadow-md leading-snug shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                label="next >" wire:click="nextQuestion"
-                spinner="nextQuestion"
-            />
-        @endif
-        @if($activeQuestion !== 0)
-            <x-button
-                class="mt-[16px] w-[151px] select-none rounded-lg bg-primary max-w-[250px] py-3.5 px-5 text-center align-middle font-poppins text-sm font-bold uppercase text-white shadow-md leading-snug shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                label="< prev" wire:click="previousQuestion"
-                spinner="previousQuestion"
-            />
-        @endif
-        @if($activeQuestion === count($questions) - 1)
-            <x-button
-                class="mt-[16px] w-[151px] select-none rounded-lg bg-primary max-w-[250px] py-3.5 px-5 text-center align-middle font-poppins text-sm font-bold uppercase text-white shadow-md leading-snug shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                label="Submit" wire:click="submitAssessment"
-                spinner="submitAssessment"
-            />
-        @endif
-    </div>
-    <div class="w-full pt-4 gap-2 grid grid-cols-5 md:grid-cols-10">
-        @foreach($questions as $index => $question)
-            <x-button
-                class="flex {{ $activeQuestion === $index ? 'bg-[#7792AC]' : 'bg-[#E8EFF6]' }} items-center justify-center w-[32px] h-[32px] rounded-[4px]"
-                label="{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}" wire:click="setActiveQuestion({{ $index }})"
-                spinner="setActiveQuestion"
-            />
-        @endforeach
-    </div>
+        <div class="w-full pt-4 gap-2 grid grid-cols-5 md:grid-cols-10">
+            @foreach($questions as $index => $question)
+                <x-button
+                    class="flex {{ $activeQuestion === $index ? 'bg-[#7792AC]' : 'bg-[#E8EFF6]' }} items-center justify-center w-[32px] h-[32px] rounded-[4px]"
+                    label="{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}" wire:click="setActiveQuestion({{ $index }})"
+                    spinner="setActiveQuestion"
+                />
+            @endforeach
+        </div>
+    @else
+        <livewire:submitted :type="$assessment->type" :mark="$finalMark"/>
+    @endif
 </div>
 
 

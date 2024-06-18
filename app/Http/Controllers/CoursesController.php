@@ -70,7 +70,7 @@ class CoursesController extends Controller
             if (!$progress) {
                 $progress = $student->progress()->create([
                     'course_id' => $course->id,
-                    'progress' => 5.00,
+                    'progress' => 50.00,
                     'started' => true,
                 ]);
             }

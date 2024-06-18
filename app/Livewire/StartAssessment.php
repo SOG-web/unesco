@@ -21,6 +21,10 @@ class StartAssessment extends Component
 
     public $multiChoiceAnswers = [];
 
+    public $completed = false;
+
+    public $finalMark = 0;
+
     public function mount($assessment): void
     {
         $this->assessment = $assessment;
@@ -52,7 +56,7 @@ class StartAssessment extends Component
         $this->activeQuestion = $index;
     }
 
-    public function submitAssessment()
+    public function submitAssessment(): void
     {
         $answers = [];
         $totalMark = 0;
@@ -99,10 +103,18 @@ class StartAssessment extends Component
 
         session()->flash('success', 'Assessment submitted successfully');
 
-        dd($answers, $totalMark, $this->assessment->type === 'theory' ? null : $totalMark, now(), true);
+        // progress of the course will be updated to 100 here
+        $progress = auth()->user()->progress()->where('course_id', $this->assessment->course_id)->first();
 
-        // to redirect to the assessments page
-        return redirect()->route('assessments');
+        // update the progress of the course
+        $progress->update([
+            'progress' => 100.00,
+            'completed' => true,
+        ]);
+
+        $this->finalMark = $totalMark;
+        $this->completed = true;
+
     }
 
     public function render()
