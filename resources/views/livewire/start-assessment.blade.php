@@ -33,6 +33,40 @@
                 </div>
 
             @endif
+            @if($assessment->type === 'multiple-choice')
+                <p class="font-normal text-[16px] leading-[24px] text-[#272835]">
+                    {{ $questions[$activeQuestion]->question }}
+                </p>
+                <div class="w-full flex flex-col pt-8 pb-8 gap-[16px]">
+                    @foreach($questions[$activeQuestion]->options as $index => $option)
+                        <x-button
+                            id="{{ $index }}"
+                            wire:key="{{ $index }}"
+                            spinner="setAnswer"
+                            wire:click="setAnswer('{{ $option }}')"
+                            class="w-full md:pl-[33px] pl-[29px] gap-[24px] rounded-[15px] items-center cursor-pointer focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none {{
+                                $answer === $option ? 'bg-[#7792AC] border-[1px] border-primary' : 'bg-[#E8EFF6]'}} md:pr-[44px] flex flex-row justify-start max-w-[510px] h-[61px]">
+                            <p
+                                class="font-normal leading-[18px] text-[12px] md:text-[16px] text-[#272835] md:leading-[24px]"
+                            >
+                                {{ chr(65 + ord(strtoupper(substr($index, -1))) - 65) }}.
+                            </p>
+                            {{--                            <input--}}
+                            {{--                                type="radio"--}}
+                            {{--                                id="option{{ $index }}"--}}
+                            {{--                                name="option"--}}
+                            {{--                                value="{{ $answer }}"--}}
+                            {{--                                wire:model.live="answer"--}}
+                            {{--                                class="font-normal leading-[18px] text-[12px] md:text-[16px] text-[#272835] md:leading-[24px]"--}}
+                            {{--                            />--}}
+                            <p
+                                class="font-normal leading-[18px] text-[12px] md:text-[16px] text-[#272835] md:leading-[24px]">
+                                {{ $option }}
+                            </p>
+                        </x-button>
+                    @endforeach
+                </div>
+            @endif
         </div>
     </div>
     <div class="w-full flex flex-row items-start justify-start gap-2">

@@ -19,26 +19,35 @@ class StartAssessment extends Component
 
     public $theoryAnswers = [];
 
-    public function mount($assessment)
+    public $multiChoiceAnswers = [];
+
+    public function mount($assessment): void
     {
         $this->assessment = $assessment;
         $this->questions = json_decode($assessment->questions);
     }
 
-    public function nextQuestion()
+
+    public function setAnswer($answer)
+    {
+        $this->answer = $answer;
+    }
+
+    public function nextQuestion(): void
     {
 
-        $this->theoryAdd('next');
+        $this->add('next');
+
         $this->activeQuestion++;
     }
 
-    public function previousQuestion()
+    public function previousQuestion(): void
     {
-        $this->theoryAdd('prev');
+        $this->add('prev');
         $this->activeQuestion--;
     }
 
-    public function setActiveQuestion($index)
+    public function setActiveQuestion($index): void
     {
         $this->activeQuestion = $index;
     }
@@ -47,8 +56,8 @@ class StartAssessment extends Component
     {
         $answers = [];
         $totalMark = 0;
+        $this->add('submit');
         if ($this->assessment->type === 'theory') {
-            $this->theoryAdd('submit');
             // validate if all questions are answered
             if (count($this->theoryAnswers) !== count($this->questions)) {
                 $this->addError('answer', 'Please answer all questions');
@@ -57,6 +66,24 @@ class StartAssessment extends Component
             }
 
             $answers = $this->theoryAnswers;
+        } else {
+            dd($this->assessment);
+            // validate if all questions are answered
+            if (count($this->multiChoiceAnswers) !== count($this->questions)) {
+                $this->addError('answer', 'Please answer all questions');
+                $this->addError('all', 'Please answer all questions');
+                return;
+            }
+
+            foreach ($this->multiChoiceAnswers as $index => $answer) {
+                $question = $this->questions[$index];
+                $correctAnswer = $question->answers[$question->correct_answer];
+                if ($answer['answer'] === $correctAnswer) {
+                    $totalMark += $question->mark;
+                }
+            }
+
+            $answers = $this->multiChoiceAnswers;
         }
 
         // save the answers
@@ -85,7 +112,7 @@ class StartAssessment extends Component
     /**
      * @return void
      */
-    private function theoryAdd($type): void
+    private function add($type): void
     {
         if ($this->assessment->type === 'theory') {
             // if answer is not empty
@@ -106,6 +133,31 @@ class StartAssessment extends Component
                         // check to see if the question is already answered and update the answer
                         if (isset($this->theoryAnswers[$this->activeQuestion - 1])) {
                             $this->answer = $this->theoryAnswers[$this->activeQuestion - 1]['answer'];
+                        }
+                    }
+                }
+            }
+        } else {
+            // if answer is not empty
+            if ($this->answer) {
+                $this->multiChoiceAnswers[$this->activeQuestion] = [
+                    'question' => $this->questions[$this->activeQuestion]->question,
+                    'answer' => $this->answer,
+                ];
+                $this->answer = '';
+            } else {
+                if ($type === 'next') {
+                    // dd($this->multiChoiceAnswers, $this->activeQuestion, $this->answer);
+                    // check to see if the question is already answered and update the answer
+                    if (isset($this->multiChoiceAnswers[$this->activeQuestion + 1])) {
+                        $this->answer = $this->multiChoiceAnswers[$this->activeQuestion + 1]['answer'];
+                    }
+                } else {
+                    if ($type === 'prev') {
+                        // dd($this->multiChoiceAnswers, $this->activeQuestion, $this->answer);
+                        // check to see if the question is already answered and update the answer
+                        if (isset($this->multiChoiceAnswers[$this->activeQuestion - 1])) {
+                            $this->answer = $this->multiChoiceAnswers[$this->activeQuestion - 1]['answer'];
                         }
                     }
                 }

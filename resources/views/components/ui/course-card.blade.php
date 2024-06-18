@@ -35,11 +35,13 @@
                 <h1
                     class="max-w-[379px] max-h-[63px] font-poppins font-semibold text-[14px] text-text-1 text-left truncate text-wrap">
                     {{ $title }}</h1>
-                @if(count($progress) < 1)
-                    <x-progress value="1" max="100" class="w-full max-w-[290px] h-1.5 progress-error"/>
-                @else
-                    <x-progress value="{{ (int) $progress[0]->progress }}" max="100"
-                                class="w-full max-w-[290px] h-1.5 {{ (int) $progress[0]->progress < 20 ? 'progress-error' : ((int) $progress[0]->progress < 50 ? 'progress-warning' : 'progress-success') }}"/>
+                @if(auth()->user()->role == 'students')
+                    @if(count($progress) < 1)
+                        <x-progress value="1" max="100" class="w-full max-w-[290px] h-1.5 progress-error"/>
+                    @else
+                        <x-progress value="{{ (int) $progress[0]->progress }}" max="100"
+                                    class="w-full max-w-[290px] h-1.5 {{ (int) $progress[0]->progress < 20 ? 'progress-error' : ((int) $progress[0]->progress < 50 ? 'progress-warning' : 'progress-success') }}"/>
+                    @endif
                 @endif
             </div>
             <div class="flex flex-row justify-between gap-4 items-center">
