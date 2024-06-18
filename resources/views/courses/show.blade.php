@@ -158,6 +158,25 @@
                     </div>
                 @endif
             </div>
+            @if(auth()->user()->role === 'students')
+                @dd($course->assessments)
+                <div class="flex flex-row items-center justify-between w-full">
+                    <div class="flex flex-col gap-[10px] justify-start items-start">
+                        <div class="w-full flex flex-row justify-between gap-[20px] items-start">
+                            <h1 class="font-medium text-[13px] leading-[21px] text-text-5">Course
+                                Progress</h1>
+                            <p class="font-medium text-[13px] leading-[21px] text-text-5">{{(int) $progress->progress}}
+                                %</p>
+                        </div>
+                        <x-progress value="{{ (int) $progress->progress }}" max="100"
+                                    class="w-full max-w-[290px] h-1.5 {{ (int) $progress->progress < 20 ? 'progress-error' : ((int) $progress->progress < 50 ? 'progress-warning' : 'progress-success') }}"/>
+                    </div>
+                    <div class="flex flex-col gap-[10px] justify-start items-start">
+                        <h1 class="font-semibold text-[13px] leading-[21px] text-text-5 uppercase">Status:</h1>
+                        <p class="font-normal text-[24px] leading-[36px] text-secondary">{{ $course->status }}</p>
+                    </div>
+                </div>
+            @endif
         </div>
         @if(auth()->user()->role !== 'students')
             <div

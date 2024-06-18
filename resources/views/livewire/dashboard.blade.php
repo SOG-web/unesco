@@ -6,9 +6,10 @@
     @if(auth()->user()->role === 'admin')
         <x-sections.view2-board :teachers="$teachers" :students="$students"/>
     @elseif(auth()->user()->role === 'teacher')
-        <x-sections.view2-board title1="Assessment" :teachers="$teachers" :assessments="$assessment"
+        <x-sections.view2-board title1="Assessment" :teachers="$teachers" :assessments="$assessments"
                                 :students="$students"/>
     @else
-        <x-sections.view2-board title2="Grades" :teachers="$teachers" :students="$students"/>
+        <x-sections.view2-board title2="Grades" title1="Assessments" :assessments="$assessments" :teachers="$teachers"
+                                :students="$students"/>
     @endif
 </div>

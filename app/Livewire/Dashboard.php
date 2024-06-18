@@ -58,15 +58,15 @@ class Dashboard extends Component
                 ->latest()
                 ->take(3)
                 ->get();
-            // $assessments = $student->courses()->with('assessments')->latest()->take(3)->get();
-//            $grades = $student->assessments()->get()->map(function ($assessment) {
-//                return $assessment->pivot->total_mark;
-//            });
+            $assessments = $courses->map(function ($course) {
+                return $course->assessments->flatten();
+            })->flatten()->take(3);
+
             return view(
                 'livewire.dashboard',
                 [
                     'courses' => $courses, 'students' => [],
-                    'assessment' => [], 'grades' => [], 'teachers' => []
+                    'assessments' => $assessments, 'grades' => [], 'teachers' => []
                 ]
             );
         }
