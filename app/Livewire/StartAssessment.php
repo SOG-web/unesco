@@ -73,6 +73,7 @@ class StartAssessment extends Component
 
         session()->flash('success', 'Assessment submitted successfully');
 
+        // to redirect to the assessments page
         return redirect()->route('assessments');
     }
 
