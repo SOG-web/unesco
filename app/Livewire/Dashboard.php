@@ -62,11 +62,19 @@ class Dashboard extends Component
                 return $course->assessments->flatten();
             })->flatten()->take(3);
 
+
+            // Get the grades of the student
+            $grades = $user->assessmentes()
+                ->with('course') // Include the course details
+                ->wherePivot('status', '<>', 'pending') // Exclude incomplete assessments
+                ->wherePivot('total_mark', '<>', null) // Exclude assessments without a total mark
+                ->get()->toArray();
+
             return view(
                 'livewire.dashboard',
                 [
                     'courses' => $courses, 'students' => [],
-                    'assessments' => $assessments, 'grades' => [], 'teachers' => []
+                    'assessments' => $assessments, 'grades' => $grades, 'teachers' => []
                 ]
             );
         }

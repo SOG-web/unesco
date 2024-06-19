@@ -40,7 +40,7 @@
                         <x-progress value="1" max="100" class="w-full max-w-[290px] h-1.5 progress-error"/>
                     @else
                         <x-progress value="{{ (int) $progress[0]->progress }}" max="100"
-                                    class="w-full max-w-[290px] h-1.5 {{ (int) $progress[0]->progress < 20 ? 'progress-error' : ((int) $progress[0]->progress < 50 ? 'progress-warning' : 'progress-success') }}"/>
+                                    class="w-full max-w-[290px] h-1.5 {{ (int) $progress[0]->progress < 20 ? 'progress-error' : ((int) $progress[0]->progress < 60 ? 'progress-warning' : 'progress-success') }}"/>
                     @endif
                 @endif
             </div>

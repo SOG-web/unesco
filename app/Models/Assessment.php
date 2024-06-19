@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -53,5 +53,23 @@ class Assessment extends Model
     public function students()
     {
         return $this->belongsToMany(User::class, 'assessment_student');
+    }
+
+    public function toArray()
+    {
+        $data = parent::toArray();
+
+        // Check if the pivot data is loaded
+        if ($this->pivot) {
+            $data = array_merge($data, [
+                'pivot_user_id' => $this->pivot->user_id,
+                'pivot_status' => $this->pivot->status,
+                'pivot_total_mark' => $this->pivot->total_mark,
+                'pivot_created_at' => $this->pivot->created_at,
+                'pivot_updated_at' => $this->pivot->updated_at,
+            ]);
+        }
+
+        return $data;
     }
 }

@@ -182,6 +182,13 @@ class User extends Authenticatable
         return $this->belongsToMany(Assessment::class, 'assessment_student');
     }
 
+    public function assessmentes()
+    {
+        return $this->belongsToMany(Assessment::class, 'assessment_student')
+            ->withPivot('status', 'total_mark')
+            ->withTimestamps();
+    }
+
     public function assignRole(string $string)
     {
         $this->role = $string;

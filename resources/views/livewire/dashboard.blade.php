@@ -10,6 +10,6 @@
                                 :students="$students"/>
     @else
         <x-sections.view2-board title2="Grades" title1="Assessments" :assessments="$assessments" :teachers="$teachers"
-                                :students="$students"/>
+                                :grades="$grades"/>
     @endif
 </div>

@@ -28,7 +28,7 @@ new class extends Component {
         <x-phosphor-check-square-bold class="max-w-[194px] w-full h-[194px] text-primary"/>
 
         <p
-            class="font-normal max-w-[500px] text-[18px] text-[#272835] leading-[27px]"
+            class="font-normal max-w-[500px] text-center text-[18px] text-[#272835] leading-[27px]"
         >
             Your score will be displayed on your dashboard when available.
         </p>
