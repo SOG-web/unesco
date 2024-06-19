@@ -36,7 +36,7 @@ new class extends Component {
     </div>
     @if($assessment->status === 'completed' && $assessment->total_mark === null)
         <a href="#"
-           class="hidden md:block font-poppins font-semibold text-[14px] text-left text-sky-900 w-full view"
+           class="hidden md:block font-poppins font-semibold text-[14px] text-left text-sky-900 view"
         >View response and grade ></a>
     @elseif($assessment->status === 'completed' && $assessment->total_mark !== null)
         <x-progress value="{{$assessment->total_mark }}" max="100"
