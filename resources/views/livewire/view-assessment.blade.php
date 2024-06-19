@@ -70,7 +70,9 @@ new class extends Component {
     @if(auth()->user()->role == 'teacher')
         <div
             class="w-full mt-[30px] max-w-[692px] max-h-[80dvh] overflow-y-scroll scroll-smooth py-[31px] flex flex-col items-center justify-start gap-[25px] bg-white rounded-[10px] px-[21px] xl:px-[45px]">
-            responses
+            @foreach($assessment['students'] as $response)
+                <livewire:responses-card :list="$response"/>
+            @endforeach
         </div>
     @endif
 </div>

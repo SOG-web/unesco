@@ -10,11 +10,11 @@ class AssessmentList extends Component
 
     public function render()
     {
-        $allAssessments = auth()->user()->assessments()->with('students.pivot')->get();
+        $allAssessments = auth()->user()->assessments()->with('students')->get();
         $gradedAssessments = auth()->user()->assessments()->where('graded_status',
-            'graded')->with('students.pivot')->get();
+            'graded')->with('students')->get();
         $ungradedAssessments = auth()->user()->assessments()->where('graded_status',
-            'ungraded')->with('students.pivot')->get();
+            'ungraded')->with('students')->get();
         return view('livewire.assessment-list', [
             'allAssessments' => $allAssessments,
             'gradedAssessments' => $gradedAssessments,
