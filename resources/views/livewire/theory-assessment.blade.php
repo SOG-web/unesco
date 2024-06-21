@@ -52,7 +52,7 @@ new class extends Component {
         </div>
     </div>
     <div
-        class="w-full max-w-[692px] flex flex-col items-center justify-start bg-white rounded-[10px] pb-[34px] md:pb-[40px] md:pr-[60px] pr-[22px] pl-[22px] pt-[29px] md:pt-[39px] md:pl-[78px] gap-[40px]">
+        class="w-full max-w-[692px] mt-[40px] flex flex-col items-center justify-start bg-white rounded-[10px] pb-[34px] md:pb-[40px] md:pr-[60px] pr-[22px] pl-[22px] pt-[29px] md:pt-[39px] md:pl-[78px] gap-[40px]">
         <div class="flex items-center w-[100%] flex-row justify-between">
             <div class="justify-start flex items-center flex-row gap-2">
                 <p class="font-semibold text-[16px] md:text-[22px] text-[#272835] leading-[24px] md:leading-[33px]">
@@ -70,7 +70,7 @@ new class extends Component {
         </div>
         <x-accordion class="w-full !border-none" wire:model="group">
             @foreach($answers as $index => $aq)
-                <x-collapse :key="$index" :name="'group'.$index">
+                <x-collapse :name="'group'.$index">
                     <x-slot:heading>
                         <div
                             class="max-w-[456px] items-center flex flex-row justify-between"
