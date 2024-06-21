@@ -3,6 +3,6 @@
         <div class="max-w-[692px] w-full lg:pl-[20px]">
             <x-ui.wlecome/>
         </div>
-        <livewire:grades/>
+        <livewire:theory-assessment :assessment="$assessment" :student="$student"/>
     </div>
 </x-auth-layout>

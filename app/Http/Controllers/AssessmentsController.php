@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Assessment;
+use App\Models\AssessmentStudent;
 
 class AssessmentsController extends Controller
 {
@@ -36,5 +37,13 @@ class AssessmentsController extends Controller
 
         return view('assessments.show', ['assessment' => $assessment]);
 
+    }
+
+    public function grade($id)
+    {
+        $assessment = AssessmentStudent::find($id)->firstOrFail();
+        $student = $assessment->user()->get();
+
+        return view('assessments.grade', ['assessment' => $assessment, 'student' => $student]);
     }
 }

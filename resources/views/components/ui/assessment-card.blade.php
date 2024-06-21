@@ -1,4 +1,9 @@
-@props(['assessment', 'show' => false])
+@php
+    use Carbon\Carbon;
+@endphp
+
+
+@props(['assessment', 'show' => false, 'count' => true])
 <div class="w-full gap-6 items-center flex flex-row h-[94px]">
     <div class="w-[80px] h-[80px] rounded-lg bg-bg-2 flex justify-center items-center">
         <x-gmdi-assessment-o class="w-[30px] h-[30px] text-secondary"/>
@@ -26,12 +31,14 @@
                 {{--                <input type="checkbox" class="toggle toggle-error toggle-xs" checked/>--}}
             @endif
         </div>
-        <p class="font-semibold text-[18px] leading-[27px]">
-            <span class="max-w-[150px] truncate">{{ $assessment->title }}</span> ({{ count($assessment->students) }}
-            responses)
-        </p>
+        @if($count)
+            <p class="font-semibold text-[18px] leading-[27px]">
+                <span class="max-w-[150px] truncate">{{ $assessment->title }}</span> ({{ count($assessment->students) }}
+                responses)
+            </p>
+        @endif
         <p class="font-light text-[12px] leading-[18px] text-[#9E9E9E]">
-            {{ $assessment->end_date }}
+            {{ Carbon::parse($assessment->end_date)->format('d M, h:iA') }}
         </p>
     </div>
     @if($show)

@@ -25,12 +25,15 @@ class AuthLayout extends Component
 
         $user = User::find(auth()->id());
 
-        $notices = $user->unreadNotices()->latest()->take(3)->get();
+        $notices = $user->unreadNotices()->latest()->get();
+
+        $pNotices = $notices->take(3);
 
         $activities = $user->unreadActivities()->latest()->take(3)->get();
 
         return view('layouts.auth-layout', [
-            'notices' => $notices,
+            'notices' => $pNotices,
+            'noticeCount' => $notices->count(),
             'activities' => $activities,
         ]);
     }

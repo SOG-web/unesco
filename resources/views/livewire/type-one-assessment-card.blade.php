@@ -27,7 +27,7 @@ new class extends Component {
 
     public function goTo()
     {
-        return redirect()->route('assessment.show', $this->id);
+        return redirect()->route('assessments.show', $this->id);
     }
 
 }; ?>

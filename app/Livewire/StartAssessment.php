@@ -112,6 +112,15 @@ class StartAssessment extends Component
             'completed' => true,
         ]);
 
+        // save activity
+        auth()->user()->activities()->create([
+            'title' => 'Assessment submitted',
+            'content' => 'Assessment submitted '.$this->assessment->title,
+            'status' => 'unread',
+            'type' => 'other',
+        ]);
+
+
         $this->finalMark = $totalMark;
         $this->completed = true;
 

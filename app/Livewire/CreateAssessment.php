@@ -233,7 +233,7 @@ class CreateAssessment extends Component
 
     public function render()
     {
-        $cour = auth()->user()->courses()->get();
+        $cour = auth()->user()->courses()->whereDoesntHave('assessments')->get();
         // foreach ($cour as $key => $value) {}
 
         $courses = $cour->map(function ($course) {

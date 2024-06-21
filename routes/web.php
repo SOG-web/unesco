@@ -46,6 +46,8 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('notices', [NoticesController::class, 'index'])->name('notices');
+//    Route::get('notices/create',
+//        [NoticesController::class, 'create'])->name('notices.create')->can('teacher-or-admin-access');
 
 
     Route::get('teachers', [TeachersController::class, 'index'])->name('teachers')->can('admin-access');
@@ -54,6 +56,7 @@ Route::middleware('auth')->group(function () {
         Route::get('assessments', 'index')->name('assessments');
         Route::get('assessments/create', 'create')->can('teacher-access')->name('assessments.create');
         Route::get('assessments/start/{id}', 'start')->name('assessments.start');
+        Route::get('assessments/grade/{id}', 'grade')->can('teacher-access')->name('assessments.grade');
         Route::get('assessments/{id}', 'show')->name('assessments.show');
     })->middleware(['can:teacher-access', 'can:students-access']);
 

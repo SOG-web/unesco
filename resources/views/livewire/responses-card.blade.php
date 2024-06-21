@@ -35,9 +35,17 @@ new class extends Component {
         </div>
     </div>
     @if($assessment->status === 'completed' && $assessment->total_mark === null)
-        <a href="#"
-           class="hidden md:block font-poppins font-semibold text-[14px] text-left text-sky-900 view"
-        >View response and grade ></a>
+        <form class="hidden" method="POST" id="assForm"
+              action="{{ route('assessments.grade', ['id'=>$assessment->id]) }}">
+            @csrf
+            @method('GET')
+        </form>
+        <button
+            type="submit" form="assForm" id="assForm"
+            class="hidden md:block font-poppins font-semibold text-[14px] text-left text-sky-900 view"
+        >
+            View response and grade >
+        </button>
     @elseif($assessment->status === 'completed' && $assessment->total_mark !== null)
         <x-progress value="{{$assessment->total_mark }}" max="100"
                     class="w-[123px] h-1.5 {{ $assessment->total_mark < 20 ? 'progress-error' : ($assessment->total_mark < 60 ? 'progress-warning' : 'progress-success') }}"/>
