@@ -4,7 +4,7 @@
 <a {{ $attributes->merge([
         'class' => '
         flex flex-row items-center
-        justify-start px-[15px] xl:pl-[30px] gap-[5px] w-full
+        justify-start px-[15px] pl-[30px] gap-[5px] w-full
         xl:h-[45px] h-[40px] font-poppins' .
         ($active ?
         ' active-sidebar-nav border-l-[6px] border-l-white text-[14px] xl:text-[18px] font-semibold text-white leading-[-0.2px]' :

@@ -25,20 +25,48 @@
         <div class="flex w-full flex-row flex-wrap justify-between items-start gap-[30px]">
             @foreach ($students as $student)
                 <div wire:key="{{ $student->id }}" class="flex flex-row items-center justify-start gap-4">
-                    <div class="w-[43px] h-[43px] lg:w-[67px] lg:h-[67px] bg-[#F3E4FF] rounded-full">
-                        <img src="{{ $student->profile_photo_url }}" alt="profile image"
-                             class="w-full h-full object-cover rounded-full">
+                    <div class="flex flex-row items-center justify-start gap-4">
+                        <div class="w-[43px] h-[43px] lg:w-[67px] lg:h-[67px] bg-[#F3E4FF] rounded-full">
+                            <img src="{{ $student->profile_photo_url }}" alt="profile image"
+                                 class="w-full h-full object-cover rounded-full">
+                        </div>
+                        <div class="flex flex-col items-start justify-start">
+                            <h1 class="font-poppins font-semibold text-text-1 text-[12px] w-[150px] truncate">
+                                {{ $student->first_name . ' ' . $student->last_name }}</h1>
+                            <p class="font-poppins font-normal text-text-2 text-[12px] truncate w-full md:w-[250px] lg:w-[200px]">
+                                {{ $student->email }}
+                            </p>
+                            {{--                        <p @click="$wire.viewStudent = true"--}}
+                            {{--                           class="text-[14px] font-semibold leading-5 text-primary cursor-pointer">--}}
+                            {{--                            View ></p>--}}
+                            @if(auth()->user()->role === 'admin')
+                                <form class="hidden" method="POST" id="assForm"
+                                      action="{{ route('students.show', ['id'=>$student->id]) }}">
+                                    @csrf
+                                    @method('GET')
+                                </form>
+                                <button
+                                    type="submit" form="assForm" id="assForm"
+                                    class="text-[14px] hidden lg:block font-semibold leading-5 text-primary cursor-pointer"
+                                >
+                                    View >
+                                </button>
+                            @endif
+                        </div>
                     </div>
-                    <div class="flex flex-col items-start justify-start">
-                        <h1 class="font-poppins font-semibold text-text-1 text-[12px] w-[150px] truncate">
-                            {{ $student->first_name . ' ' . $student->last_name }}</h1>
-                        <p class="font-poppins font-normal text-text-2 text-[12px] truncate w-[150px]">
-                            {{ $student->email }}
-                        </p>
-                        <p @click="$wire.viewStudent = true"
-                           class="text-[14px] font-semibold leading-5 text-primary cursor-pointer">
-                            View ></p>
-                    </div>
+                    @if(auth()->user()->role === 'admin')
+                        <form class="hidden" method="POST" id="assdForm"
+                              action="{{ route('students.show', ['id'=>$student->id]) }}">
+                            @csrf
+                            @method('GET')
+                        </form>
+                        <button
+                            type="submit" form="assdForm" id="assdForm"
+                            class="text-[14px] font-semibold leading-5 text-primary cursor-pointer"
+                        >
+                            View >
+                        </button>
+                    @endif
                     {{--                    <x-modal wire:model="viewStudent" class="backdrop-blur">--}}
                     {{--                        <div class="mb-5 flex w-full flex-col items-center justify-start gap-4">--}}
                     {{--                            <livewire:view-profiles type="viewStudent" title="Student" :studentId="$student->id"/>--}}

@@ -27,6 +27,9 @@ new class extends Component {
 
     public function goTo()
     {
+        if (auth()->user()->role === 'students') {
+            return redirect()->route('assessments.start', ['id' => $this->id]);
+        }
         return redirect()->route('assessments.show', $this->id);
     }
 

@@ -3,12 +3,10 @@ import withMT from "@material-tailwind/html/utils/withMT.js";
 /** @type {import('tailwindcss').Config} */
 export default withMT({
     content: [
-		"./resources/**/*.blade.php",
-		 "./resources/**/*.js",
-		 "./resources/**/*.vue",
-		 "./node_modules/flowbite/**/*.js",
-		 "./vendor/robsontenorio/mary/src/View/Components/**/*.php"
-	],
+        "./resources/**/*.blade.php",
+        "./resources/**/*.js",
+        "./vendor/robsontenorio/mary/src/View/Components/**/*.php"
+    ],
     theme: {
         extend: {
             fontFamily: {
@@ -37,7 +35,6 @@ export default withMT({
         },
     },
     plugins: [
-		require("flowbite/plugin"),
-		require("daisyui")
-	],
+        require("daisyui")
+    ],
 });
