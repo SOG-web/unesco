@@ -7,6 +7,7 @@ use App\Models\AssessmentStudent;
 
 class AssessmentsController extends Controller
 {
+
     public function index()
     {
         return view('assessments.index');
@@ -41,7 +42,7 @@ class AssessmentsController extends Controller
 
     public function grade($id)
     {
-        $assessment = AssessmentStudent::find($id)->firstOrFail();
+        $assessment = AssessmentStudent::where('id', $id)->firstOrFail();
         $student = $assessment->user()->get();
 
         return view('assessments.grade', ['assessment' => $assessment, 'student' => $student]);

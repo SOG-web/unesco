@@ -60,7 +60,7 @@ class StudentsController extends Controller
         }
 
         return view('students.show', [
-            'students' => $student
+            'student' => $student
         ]);
     }
 }

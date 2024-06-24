@@ -2,7 +2,7 @@
 
 
 <div
-    class="w-full max-w-[323px] py-[31px] flex flex-col items-start justify-start gap-[30px] bg-white rounded-[10px] px-[21px]">
+    class="w-full lg:max-w-[323px] py-[31px] flex flex-col items-start justify-start gap-[30px] bg-white rounded-[10px] px-[21px]">
     @foreach ($lists as $list)
         @if ($type == 'image')
             <div class="w-full flex flex-row items-start justify-start gap-4">
@@ -13,7 +13,7 @@
                 <div class="flex flex-col items-start justify-start">
                     <h1 class="max-w-[150px] truncate font-poppins font-semibold text-text-1 text-[12px]">
                         {{ $list['first_name'] . ' ' . $list['last_name'] }}</h1>
-                    <p class="max-w-[120px] truncate font-poppins font-normal text-text-2 text-[12px]">{{ $list['email'] }}</p>
+                    <p class="lg:max-w-[120px] w-full truncate font-poppins font-normal text-text-2 text-[12px]">{{ $list['email'] }}</p>
                 </div>
             </div>
         @else

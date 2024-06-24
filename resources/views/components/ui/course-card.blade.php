@@ -26,7 +26,7 @@
                 <x-iconic-link class="w-[30px] h-[30px] text-secondary"/>
             @endif
         </div>
-        <div class="flex flex-col h-full items-start justify-between gap-[10px]">
+        <div class="flex flex-col w-full h-full items-start justify-between gap-[10px]">
             <div class="w-full flex flex-col gap-0.5 items-start justify-start">
                 <div class="md:hidden flex flex-row gap-2 items-center justify-start">
                     <x-carbon-user class="w-[14px] h-[14px] text-gray-2"/>

@@ -32,10 +32,17 @@
             @endif
         </div>
         @if($count)
-            <p class="font-semibold text-[18px] leading-[27px]">
-                <span class="max-w-[150px] truncate">{{ $assessment->title }}</span> ({{ count($assessment->students) }}
-                responses)
-            </p>
+            @if(auth()->user()->role === 'teacher')
+                <p class="font-semibold text-[18px] leading-[27px]">
+                    <span class="max-w-[150px] truncate">{{ $assessment->title }}</span>
+                    ({{ count($assessment->students) }}
+                    responses)
+                </p>
+            @else
+                <p class="font-semibold text-[18px] leading-[27px]">
+                    <span class="max-w-[150px] truncate">{{ $assessment->title }}</span>
+                </p>
+            @endif
         @endif
         <p class="font-light text-[12px] leading-[18px] text-[#9E9E9E]">
             {{ Carbon::parse($assessment->end_date)->format('d M, h:iA') }}

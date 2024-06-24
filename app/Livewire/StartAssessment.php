@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Assessment;
+use App\Models\AssessmentStudent;
 use Livewire\Component;
 
 class StartAssessment extends Component
@@ -28,6 +29,7 @@ class StartAssessment extends Component
     public function mount($assessment): void
     {
         $this->assessment = $assessment;
+        $this->completed = AssessmentStudent::whereAssessmentId($assessment->id)->whereUserId(auth()->id())->first()->submitted;
         $this->questions = json_decode($assessment->questions);
     }
 

@@ -41,6 +41,17 @@ class Notices extends Component
                     $this->readNotices[] = $notice;
                 }
             }
+        } else {
+            $this->notices = auth()->user()->notices()->get();
+
+            // filter the notices into unread and read
+            foreach ($this->notices as $notice) {
+                if ($notice->status === 'unread') {
+                    $this->unreadNotices[] = $notice;
+                } else {
+                    $this->readNotices[] = $notice;
+                }
+            }
         }
 
 //        if (auth()->user()->isAdmin()) {

@@ -7,7 +7,16 @@
 >
     <div class="flex flex-row justify-between items-center w-full max-w-[200px]">
         <x-ui.cu-badge :content="$noticeCount">
-            <x-iconsax-lin-notification class="w-[22px] h-[22px] text-[#8B8C8C]"/>
+            <form class="hidden" method="POST" id="assForm"
+                  action="{{ route('notices') }}">
+                @csrf
+                @method('GET')
+            </form>
+            <button
+                type="submit" form="assForm" id="assForm"
+            >
+                <x-iconsax-lin-notification class="w-[22px] h-[22px] text-[#8B8C8C]"/>
+            </button>
         </x-ui.cu-badge>
         <x-heroicon-o-cog-8-tooth class="w-[22px] h-[22px] text-[#8B8C8C]"/>
         <button

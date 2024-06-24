@@ -46,6 +46,8 @@ class TeachersController extends Controller
         if ($teacher->role !== 'teacher') {
             abort(404, 'Teacher not found.');
         }
-        return view('teachers.show', $teacher);
+        return view('teachers.show', [
+            'teacher' => $teacher,
+        ]);
     }
 }

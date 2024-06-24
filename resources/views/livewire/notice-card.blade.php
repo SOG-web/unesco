@@ -25,6 +25,6 @@ new class extends Component {
             <p class="font-light text-yellow-1 text-[10px]">
                 ({{ $notice->created_at->format('d/m/y') }})</p>
         </div>
-        <p class="w-full text-[#121212] font-normal text-[12px] lg:text-[13px] leading-[20px] lg:leading-[21px] tracking-[0.3px] opacity-70">{{ $notice->content }}</p>
+        <p class="w-full text-[#121212] font-normal text-[12px] lg:text-[13px] text-wrap leading-[20px] lg:leading-[21px] tracking-[0.3px] opacity-70">{{ $notice->content }}</p>
     </div>
 </div>

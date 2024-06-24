@@ -13,7 +13,7 @@
         @endif
     </div>
     <div
-        class="w-full {{ auth()->user()->role !== 'admin' ? 'max-w-[284px]' : '' }} flex flex-col items-center justify-start gap-[16px]">
+        class="w-full {{ auth()->user()->role !== 'admin' ? 'lg:max-w-[284px]' : '' }} flex flex-col items-center justify-start gap-[16px]">
         <h1 class="pl-[20px] font-semibold text-left leading-[24px] text-text-1 text-[16px] self-start">
             {{ $title2 }}</h1>
         @if($students)
