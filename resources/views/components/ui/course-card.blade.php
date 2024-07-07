@@ -6,7 +6,7 @@
     $uniqueId = $id;
 @endphp
 
-@props(['image', 'title', 'view' => false, 'updated_at', 'teacher', 'duration', 'id', 'type' => 'video'])
+@props(['image', 'title', 'view' => false, 'updated_at', 'teacher', 'duration', 'id', 'type' => 'video', 'progress'=>[]])
 
 <div onclick="goto({{$id}})" class="flex flex-row items-center justify-between w-full h-full course-card cursor-pointer"
      id="{{ $id }}">
@@ -26,7 +26,7 @@
                 <x-iconic-link class="w-[30px] h-[30px] text-secondary"/>
             @endif
         </div>
-        <div class="flex flex-col h-full items-start justify-between gap-[10px]">
+        <div class="flex flex-col w-full h-full items-start justify-between gap-[10px]">
             <div class="w-full flex flex-col gap-0.5 items-start justify-start">
                 <div class="md:hidden flex flex-row gap-2 items-center justify-start">
                     <x-carbon-user class="w-[14px] h-[14px] text-gray-2"/>
@@ -35,6 +35,14 @@
                 <h1
                     class="max-w-[379px] max-h-[63px] font-poppins font-semibold text-[14px] text-text-1 text-left truncate text-wrap">
                     {{ $title }}</h1>
+                @if(auth()->user()->role == 'students')
+                    @if(count($progress) < 1)
+                        <x-progress value="1" max="100" class="w-full max-w-[290px] h-1.5 progress-error"/>
+                    @else
+                        <x-progress value="{{ (int) $progress[0]->progress }}" max="100"
+                                    class="w-full max-w-[290px] h-1.5 {{ (int) $progress[0]->progress < 20 ? 'progress-error' : ((int) $progress[0]->progress < 60 ? 'progress-warning' : 'progress-success') }}"/>
+                    @endif
+                @endif
             </div>
             <div class="flex flex-row justify-between gap-4 items-center">
                 <div class="flex flex-row gap-2 items-center justify-center">

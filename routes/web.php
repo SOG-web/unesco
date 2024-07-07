@@ -38,6 +38,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('students', [StudentsController::class, 'index'])->name('students')
         ->can('teacher-or-admin-access');
+    Route::get('students/{id}', [StudentsController::class, 'show'])->name('students.show')
+        ->can('teacher-or-admin-access');
 
     Route::get('courses', [CoursesController::class, 'index'])->name('courses');
     Route::get('courses/create', [CoursesController::class, 'create'])->name('courses.create')->can('teacher-access');
@@ -45,18 +47,22 @@ Route::middleware('auth')->group(function () {
     Route::get('courses/{id}', [CoursesController::class, 'show'])->name('courses.show');
 
 
-    Route::get('notices', [NoticesController::class, 'index'])->name('notices');
-
-
     Route::get('teachers', [TeachersController::class, 'index'])->name('teachers')->can('admin-access');
-
-    Route::controller(AssessmentsController::class)->group(function () {
-        Route::get('assessments', 'index')->name('assessments');
-        Route::get('assessments/create', 'create')->can('teacher-access')->name('assessments.create');
-        Route::get('assessments/{id}', 'show')->name('assessments.show');
-    })->middleware(['can:teacher-access', 'can:students-access']);
+    Route::get('teachers/{id}', [TeachersController::class, 'show'])->name('teachers.show')->can('admin-access');
 
     Route::get('grades', [GradesController::class, 'index'])->name('grades')->can('students-access');
+
+    Route::get('assessments', [AssessmentsController::class, 'index'])->name('assessments');
+    Route::get('assessments/create',
+        [AssessmentsController::class, 'create'])->can('teacher-access')->name('assessments.create');
+    Route::get('assessment/grade/{id}',
+        [AssessmentsController::class, 'grade'])->can('teacher-access')->name('assessment.grade');
+    Route::get('assessments/start/{id}',
+        [AssessmentsController::class, 'start'])->can('students-access')->name('assessments.start');
+    Route::get('assessments/{id}',
+        [AssessmentsController::class, 'show'])->can('teacher-access')->name('assessments.show');
+
+    Route::get('notices', [NoticesController::class, 'index'])->name('notices');
 
 });
 

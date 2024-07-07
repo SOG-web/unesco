@@ -1,7 +1,7 @@
 @props(['active' => false])
 
 @if($active)
-    <x-bi-chat-dots-fill class="text-white w-[24px] h-[24px]"/>
+<x-heroicon-o-chart-bar-square class="text-gray-4 w-[24px] h-[24px]"/>
 @else
-    <x-bi-chat-dots class="w-[22px] h-[22px] text-gray-4 "/>
+<x-heroicon-o-chart-bar-square class="text-gray-4 w-[24px] h-[24px]"/>
 @endif

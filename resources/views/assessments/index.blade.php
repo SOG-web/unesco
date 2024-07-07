@@ -3,6 +3,10 @@
         <div class="max-w-[692px] w-full lg:pl-[20px]">
             <x-ui.wlecome/>
         </div>
-        <livewire:assessment-list/>
+        @if(auth()->user()->role === 'students')
+            <livewire:student-assessment-list/>
+        @else
+            <livewire:assessment-list/>
+        @endif
     </div>
 </x-auth-layout>

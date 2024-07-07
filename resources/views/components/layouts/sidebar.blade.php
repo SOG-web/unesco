@@ -21,7 +21,7 @@
     $links = $sidebarLinks[$userRole] ?? [];
 @endphp
 
-@props(['notices' => []])
+@props(['notices' => [], 'noticeCount'=> 0])
 
 <div
     class="bg-inherit w-full
@@ -63,9 +63,9 @@
             :active="str_contains(request()->fullUrl(), 'notices')">
             <x-icons.notify :active="str_contains(request()->fullUrl(), 'notices')"/>
             <span>Notices</span>
-            @if(count($notices) > 0)
+            @if($noticeCount > 0)
                 <div class="flex ml-auto items-center justify-center rounded-full h-4 w-4 bg-red-500">
-                    <p class="text-white text-[10px] font-semibold">{{ count($notices) }}</p>
+                    <p class="text-white text-[10px] font-semibold">{{ $noticeCount }}</p>
                 </div>
             @endif
         </x-layouts.sidebar-link>

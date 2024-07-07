@@ -20,13 +20,21 @@ new class extends Component {
             'email' => 'required|email',
         ]);
 
-        User::create([
+        $stu = User::create([
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'email' => $this->email,
             'password' => 'password',
             'title' => null,
             'role' => 'students',
+        ]);
+
+        // save activity
+        auth()->user()->activities()->create([
+            'title' => 'Student created',
+            'content' => 'Student created '.$stu->first_name,
+            'status' => 'unread',
+            'type' => 'other',
         ]);
 
         $this->reset();

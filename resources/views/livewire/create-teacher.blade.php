@@ -30,13 +30,21 @@ new class extends Component {
             'title' => 'required',
         ]);
 
-        User::create([
+        $tec = User::create([
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'email' => $this->email,
             'password' => 'password',
             'title' => null,
             'role' => 'teacher',
+        ]);
+
+        // save activity
+        auth()->user()->activities()->create([
+            'title' => 'Teacher created',
+            'content' => 'Teacher created '.$tec->first_name,
+            'status' => 'unread',
+            'type' => 'other',
         ]);
 
         $this->reset();

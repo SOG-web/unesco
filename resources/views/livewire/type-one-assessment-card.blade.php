@@ -1,6 +1,7 @@
 <?php
 
 use Livewire\Volt\Component;
+use Carbon\Carbon;
 
 new class extends Component {
     public $toggle = false;
@@ -26,7 +27,10 @@ new class extends Component {
 
     public function goTo()
     {
-        return redirect()->route('assessment.show', $this->id);
+        if (auth()->user()->role === 'students') {
+            return redirect()->route('assessments.start', ['id' => $this->id]);
+        }
+        return redirect()->route('assessments.show', $this->id);
     }
 
 }; ?>
@@ -48,7 +52,7 @@ new class extends Component {
             </p>
             <div class="flex flex-row gap-3 items-center justify-start">
                 <p class="font-light text-[10px] leading-[15px] text-[#9E9E9E]">
-                    {{ $date }}
+                    {{ Carbon::parse($date)->format('d M, h:iA') }}
                 </p>
                 @if($grading > 0)
                     <div class="flex items-center justify-center rounded-full h-4 w-4 bg-red-500">

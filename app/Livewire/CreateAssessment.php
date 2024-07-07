@@ -74,7 +74,7 @@ class CreateAssessment extends Component
             $this->questions[] = [
                 'question' => $this->theory_question,
             ];
-            $this->total_questions = 1;
+            $this->total_questions = $this->total_questions + 1;
             $this->add_question = false;
             $this->theory_question = '';
         } else {
@@ -141,11 +141,7 @@ class CreateAssessment extends Component
     #[Computed]
     public function getIsButtonDisabledProperty(): bool
     {
-        if ($this->type === 'theory') {
-            return true;
-        } else {
-            return count($this->questions) === $this->number_of_question_allowed;
-        }
+        return count($this->questions) === $this->number_of_question_allowed;
     }
 
     #[Computed]
@@ -157,7 +153,7 @@ class CreateAssessment extends Component
     #[Computed]
     public function getHeadingTextProperty(): string
     {
-        return $this->currentStep === 1 ? 'Add New Assessment' : 'Add Question '.$this->total_questions.' of '.$this->number_of_question_allowed;
+        return $this->currentStep === 1 ? 'Add New Assessment' : 'Add Question '.($this->total_questions - 1).' of '.$this->number_of_question_allowed;
     }
 
     #[Computed]
@@ -209,6 +205,7 @@ class CreateAssessment extends Component
         $assessment->no_of_questions = count($this->questions);
         $assessment->mark_per_questions = (int) $this->mark_per_question;
         $assessment->questions = json_encode($this->questions);
+        $assessment->teacher_id = auth()->id();
 
         // Save the assessment to the database
         $assessment->save();
@@ -236,7 +233,7 @@ class CreateAssessment extends Component
 
     public function render()
     {
-        $cour = auth()->user()->courses()->get();
+        $cour = auth()->user()->courses()->whereDoesntHave('assessments')->get();
         // foreach ($cour as $key => $value) {}
 
         $courses = $cour->map(function ($course) {

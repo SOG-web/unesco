@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Course;
+use App\Models\User;
 use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
 
@@ -51,6 +52,20 @@ new class extends Component {
             'date' => $this->date ?? null,
             'time' => $this->time ?? null,
         ]);
+
+        // save activity
+        auth()->user()->activities()->create([
+            'title' => 'Course created',
+            'content' => 'Course created '.$course->slug,
+            'status' => 'unread',
+            'type' => 'course',
+        ]);
+
+        // send notification to admin
+        $admin = User::where('role', 'admin')->first();
+
+        $admin->setNotification('A new course has been created '.$course->slug.' by '.auth()->user()->first_name.' '.auth()->user()->last_name,
+            'course', 'New Course Created');
 
 //        if ($this->type === 'audio' || $this->type === 'video') {
 //            $course->addMedia($this->upload)->toMediaCollection('course');

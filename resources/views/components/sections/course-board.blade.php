@@ -36,7 +36,7 @@
             <x-ui.course-card :image="$course->thumbnail" :title="$course->title" :updated_at="$course->updated_at"
                               :duration="$course->duration"
                               :teacher="$course->teacher_id"
-                              :view="$view" :id="$course->id" :type="$course->type"/>
+                              :view="$view" :id="$course->id" :type="$course->type" :progress="$course->progress"/>
         @endforeach
     </div>
     @if (request()->is('dashboard'))

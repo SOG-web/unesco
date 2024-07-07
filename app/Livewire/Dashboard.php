@@ -35,14 +35,14 @@ class Dashboard extends Component
         if ($userRole === 'teacher') {
             $courses = $user->courses()->with(['students', 'assessments'])->latest()->take(3)->get();
             $students = collect();
-            $assessments = auth()->user()->assessments()->with('students.pivot')->get();
+            $assessments = auth()->user()->assessments()->with('students')->get();
             foreach ($courses as $course) {
                 $students = $students->merge($course->students);
             }
             $students = $students->unique('id');
             return view('livewire.dashboard', [
                 'students' => $students->take(3),
-                'courses' => $courses, 'assessment' => $assessments->take(3), 'teachers' => [], 'grades' => []
+                'courses' => $courses, 'assessments' => $assessments->take(3), 'teachers' => [], 'grades' => []
             ]);
         }
 
@@ -58,15 +58,23 @@ class Dashboard extends Component
                 ->latest()
                 ->take(3)
                 ->get();
-            // $assessments = $student->courses()->with('assessments')->latest()->take(3)->get();
-//            $grades = $student->assessments()->get()->map(function ($assessment) {
-//                return $assessment->pivot->total_mark;
-//            });
+            $assessments = $courses->map(function ($course) {
+                return $course->assessments->flatten();
+            })->flatten()->take(3);
+
+
+            // Get the grades of the student
+            $grades = $user->assessmentes()
+                ->with('course') // Include the course details
+                ->wherePivot('status', '<>', 'pending') // Exclude incomplete assessments
+                ->wherePivot('total_mark', '<>', null) // Exclude assessments without a total mark
+                ->get()->toArray();
+
             return view(
                 'livewire.dashboard',
                 [
                     'courses' => $courses, 'students' => [],
-                    'assessment' => [], 'grades' => [], 'teachers' => []
+                    'assessments' => $assessments, 'grades' => $grades, 'teachers' => []
                 ]
             );
         }

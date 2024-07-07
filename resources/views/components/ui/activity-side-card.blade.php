@@ -10,11 +10,12 @@
                       d="M15 4h3a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3m0 3h6m-3 5h3m-6 0h.01M12 16h3m-6 0h.01M10 3v4h4V3h-4Z"/>
             </svg>
         @else
-            <x-letsicon-sort-up-alt class="w-[20px] h-[20px] text-[#008E13] font-bold"/>
+            <!-- <x-letsicon-sort-up-alt class="w-[20px] h-[20px] text-[#008E13] font-bold"/> -->
+            <x-heroicon-o-chart-bar-square class="text-gray-4 w-[24px] h-[24px]"/>
         @endif
     </x-ui.squared-icon>
     <div class="flex flex-col items-start justify-center gap-2">
-        <h1 class="font-poppins w-[100px] md:w-[120px] xl:w-[160px] font-semibold text-[10px] text-text-1 text-left truncate text-wrap">{{ $title }}</h1>
+        <h1 class="font-poppins w-full md:w-[120px] xl:w-[160px] font-semibold text-[10px] text-text-1 text-left truncate text-wrap">{{ $title }}</h1>
         <div class="w-full flex flex-row justify-start gap-[10px] items-center">
             <p class="font-poppins font-light text-text-2 text-[10px]"> {{ Carbon::parse($created_at)->format('d M, h:iA') }}</p>
         </div>
