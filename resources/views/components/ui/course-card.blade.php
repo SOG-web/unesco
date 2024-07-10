@@ -21,7 +21,7 @@
                         fill="#8F00FF"/>
                 </svg>
             @elseif ($type == 'audio')
-                <x-iconoir-headset class="w-[30px] h-[30px] text-secondary"/>
+                <x-iconic-headphones class="w-[30px] h-[30px] text-secondary"/>
             @else
                 <x-iconic-link class="w-[30px] h-[30px] text-secondary"/>
             @endif
@@ -29,7 +29,7 @@
         <div class="flex flex-col w-full h-full items-start justify-between gap-[10px]">
             <div class="w-full flex flex-col gap-0.5 items-start justify-start">
                 <div class="md:hidden flex flex-row gap-2 items-center justify-start">
-                    <x-carbon-user class="w-[14px] h-[14px] text-gray-2"/>
+                    <heroicon-c-user class="w-[14px] h-[14px] text-gray-2"/>
                     <p class="font-medium font-poppins text-[8px] text-gray-2">{{ $teacherData->title . ' ' . $teacherData->first_name . ' '. $teacherData->last_name }}</p>
                 </div>
                 <h1
@@ -46,16 +46,16 @@
             </div>
             <div class="flex flex-row justify-between gap-4 items-center">
                 <div class="flex flex-row gap-2 items-center justify-center">
-                    <x-phosphor-calendar-dots-light class="w-[14px] h-[14px] text-gray-2"/>
+                    <x-heroicon-o-calendar-days class="w-[14px] h-[14px] text-gray-2"/>
                     <p class="font-medium font-poppins text-[8px] text-gray-2">
                         {{ Carbon::parse($updated_at)->format('d M, h:iA') }}</p>
                 </div>
                 <div class="hidden md:flex flex-row gap-2 items-center justify-start">
-                    <x-carbon-user class="w-[14px] h-[14px] text-gray-2"/>
+                    <heroicon-c-user class="w-[14px] h-[14px] text-gray-2"/>
                     <p class="font-medium font-poppins text-[8px] text-gray-2">{{ $teacherData->title . ' ' . $teacherData->first_name . ' '. $teacherData->last_name }}</p>
                 </div>
                 <div class="flex flex-row gap-2 items-center justify-start">
-                    <x-phosphor-clock-countdown-light class="w-[14px] h-[14px] text-gray-2"/>
+                    <x-heroicon-o-clock class="w-[14px] h-[14px] text-gray-2"/>
                     <p class="font-medium font-poppins text-[8px] text-gray-2">{{ $duration }}</p>
                 </div>
             </div>

@@ -29,15 +29,15 @@
     <div class="flex flex-row items-start justify-start gap-[40px] pl-[42px] mb-[67px]">
         <p class="text-[24px] font-medium leading-5 text-white cursor-pointer !bg-none"><</p>
         <x-ui.cu-badge :content="$noticeCount">
-            <form class="hidden" method="POST" id="assForm"
+            <form class="hidden" method="POST" id="asseForm"
                   action="{{ route('notices') }}">
                 @csrf
                 @method('GET')
             </form>
             <button
-                type="submit" form="assForm" id="assForm"
+                type="submit" form="asseForm" id="asseForm"
             >
-                <x-iconsax-lin-notification class="w-[22px] h-[22px] text-white"/>
+                <x-heroicon-o-bell class="w-[22px] h-[22px] text-white"/>
             </button>
         </x-ui.cu-badge>
         <x-heroicon-o-cog-8-tooth class="w-[22px] h-[22px] text-white"/>

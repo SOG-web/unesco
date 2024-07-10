@@ -15,8 +15,7 @@
             <button
                 type="submit" form="assForm" id="assForm"
             >
-                <!-- <x-iconsax-lin-notification class="w-[22px] h-[22px] text-[#8B8C8C]"/> -->
-                <x-heroicon-o-chart-bar-square class="text-gray-4 w-[24px] h-[24px]"/>
+                <x-heroicon-o-bell class="w-[22px] h-[22px] text-[#8B8C8C]"/>
             </button>
         </x-ui.cu-badge>
         <x-heroicon-o-cog-8-tooth class="w-[22px] h-[22px] text-[#8B8C8C]"/>

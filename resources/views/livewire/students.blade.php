@@ -1,9 +1,9 @@
 <div class="w-full flex flex-col items-center justify-start gap-[33px] pt-[50px] px-[10px] xl:pl-0">
-    <div class="max-w-[692px] w-full lg:pl-[20px]">
+    <div class="max-w-[730px] w-full lg:pl-[20px]">
         <x-ui.wlecome/>
     </div>
     <div
-        class="w-full max-w-[692px] max-h-[80dvh] overflow-y-scroll scroll-smooth py-[31px] flex flex-col items-center justify-start gap-[25px] bg-white rounded-[10px] px-[21px] xl:px-[45px]">
+        class="w-full max-w-[730px] max-h-[80dvh] overflow-y-scroll scroll-smooth py-[31px] flex flex-col items-center justify-start gap-[25px] bg-white rounded-[10px] px-[21px] xl:px-[45px]">
 
         <div class="w-full max-w-[518px] self-start justify-between flex flex-row items-center  mb-[9px] flex-wrap">
             <h1 class="font-poppins font-semibold text-text-1 text-[16px] md:text-[18px] lg:text-[22px]">
@@ -40,13 +40,13 @@
                             {{--                           class="text-[14px] font-semibold leading-5 text-primary cursor-pointer">--}}
                             {{--                            View ></p>--}}
                             @if(auth()->user()->role === 'admin')
-                                <form class="hidden" method="POST" id="assForm"
+                                <form class="hidden" method="POST" id="asssForm"
                                       action="{{ route('students.show', ['id'=>$student->id]) }}">
                                     @csrf
                                     @method('GET')
                                 </form>
                                 <button
-                                    type="submit" form="assForm" id="assForm"
+                                    type="submit" form="asssForm" id="asssForm"
                                     class="text-[14px] hidden lg:block font-semibold leading-5 text-primary cursor-pointer"
                                 >
                                     View >
@@ -62,7 +62,7 @@
                         </form>
                         <button
                             type="submit" form="assdForm" id="assdForm"
-                            class="text-[14px] font-semibold leading-5 text-primary cursor-pointer"
+                            class="text-[14px] font-semibold leading-5 text-primary cursor-pointer lg:hidden"
                         >
                             View >
                         </button>

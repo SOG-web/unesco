@@ -3,7 +3,7 @@
         <x-ui.wlecome/>
     </div>
     <div
-        class="w-full max-w-[692px] max-h-[80dvh] overflow-y-scroll scroll-smooth py-[31px] flex flex-col items-center justify-start gap-[25px] bg-white rounded-[10px] px-[21px] xl:px-[45px]">
+        class="w-full max-w-[730px] max-h-[80dvh] overflow-y-scroll scroll-smooth py-[31px] flex flex-col items-center justify-start gap-[25px] bg-white rounded-[10px] px-[21px] xl:px-[45px]">
 
         <div class="w-full max-w-[518px] self-start justify-between flex flex-row items-center  mb-[9px] flex-wrap">
             <h1 class="font-poppins font-semibold text-text-1 text-[16px] md:text-[18px] lg:text-[22px]">
@@ -36,13 +36,13 @@
                             <p class="font-poppins font-normal text-text-2 text-[12px] truncate w-[150px]">
                                 {{ $teacher->email }}
                             </p>
-                            <form class="hidden" method="POST" id="assForm"
+                            <form class="hidden" method="POST" id="asstForm"
                                   action="{{ route('teachers.show', ['id'=>$teacher->id]) }}">
                                 @csrf
                                 @method('GET')
                             </form>
                             <button
-                                type="submit" form="assForm" id="assForm"
+                                type="submit" form="asstForm" id="asstForm"
                                 class="text-[14px] hidden lg:block font-semibold leading-5 text-primary cursor-pointer"
                             >
                                 View >

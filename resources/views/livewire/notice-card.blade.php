@@ -14,7 +14,7 @@ new class extends Component {
 
 <div class="w-full flex flex-row gap-3 items-start">
     <div class="bg-yellow-fade w-[42px] lg:w-[65px] h-[42px] lg:h-[65px] flex items-center justify-center rounded-lg">
-        <x-iconsax-lin-notification class="w-[23px] h-[23px] text-yellow-1"/>
+        <x-heroicon-o-bell class="w-[23px] h-[23px] text-yellow-1"/>
     </div>
     <div class="flex flex-col flex-1 items-start justify-start gap-2">
         <h1 class="w-full max-w-[250px] md:max-w-[400px] xl:max-w-[500px] font-semibold text-[12px] leading-[18px] lg:text-[16px] lg:leading-[24px] {{ $notice->status === 'unread' ? 'text-[#FF0000]' : 'text-text-1' }} text-left truncate">

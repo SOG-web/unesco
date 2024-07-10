@@ -1,7 +1,7 @@
 @props(['active' => false])
 
 @if($active)
-<x-heroicon-o-chart-bar-square class="text-gray-4 w-[24px] h-[24px]"/>
+    <x-heroicon-s-chat-bubble-oval-left-ellipsis class="text-white w-[24px] h-[24px]"/>
 @else
-<x-heroicon-o-chart-bar-square class="text-gray-4 w-[24px] h-[24px]"/>
+    <x-heroicon-o-chat-bubble-oval-left-ellipsis class="w-[22px] h-[22px] text-gray-4 "/>
 @endif
