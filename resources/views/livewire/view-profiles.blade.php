@@ -1,9 +1,9 @@
 <div class="w-full flex flex-col items-center justify-start gap-[33px] pt-[50px] px-[10px] xl:pl-0">
-    <div class="max-w-[692px] w-full lg:pl-[20px]">
+    <div class="max-w-[730px] w-full lg:pl-[20px]">
         <x-ui.wlecome/>
     </div>
     <div
-        class="w-full max-w-[692px] max-h-[80dvh] overflow-y-scroll scroll-smooth py-[31px] flex flex-col items-center justify-start gap-[25px] bg-white rounded-[10px] px-[21px] xl:px-[45px]">
+        class="w-full max-w-[730px] max-h-[80dvh] overflow-y-scroll scroll-smooth py-[31px] flex flex-col items-center justify-start gap-[25px] bg-white rounded-[10px] px-[21px] xl:px-[45px]">
         <div class="w-full flex flex-row items-center justify-center">
             <h1 class="font-semibold text-[22px] leading-[33px] text-center text-text-1">View {{ $title }}</h1>
             {{--        <p class="text-[14px] text-primary leading-[21px] font-semibold self-end">edit</p>--}}
@@ -73,14 +73,14 @@
                 </div>
             </div>
         @endif
-        <form class="hidden" method="POST" id="assForm"
+        <form class="hidden" method="POST" id="assaForm"
               action="{{ route($backUrl) }}">
             @csrf
             @method('GET')
         </form>
         <div class="w-[151px] m-auto mt-4">
             <x-button
-                type="submit" form="assForm" id="assForm"
+                type="submit" form="assaForm" id="assaForm"
                 label="< go back" class="mt-4 bg-primary text-white w-full"/>
         </div>
 

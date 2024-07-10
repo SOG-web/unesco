@@ -6,7 +6,7 @@
 @props(['assessment', 'show' => false, 'count' => true])
 <div class="w-full gap-6 items-center flex flex-row h-[94px]">
     <div class="w-[80px] h-[80px] rounded-lg bg-bg-2 flex justify-center items-center">
-        <x-gmdi-assessment-o class="w-[30px] h-[30px] text-secondary"/>
+        <x-iconic-chart class="w-[30px] h-[30px] text-secondary"/>
     </div>
     <div class="flex gap-2 flex-col">
         <div class="flex flex-row gap-4">

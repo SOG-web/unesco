@@ -6,7 +6,7 @@
 
 <div class="w-full flex flex-row gap-3 items-center">
     <x-ui.squared-icon>
-        <x-iconsax-lin-notification class="w-[20px] h-[20px] text-yellow-1" />
+        <x-heroicon-o-bell class="w-[20px] h-[20px] text-yellow-1"/>
     </x-ui.squared-icon>
     <div class="flex flex-col items-start justify-center gap-2">
         <h1 class="font-poppins w-[100px] md:w-[120px] xl:w-[160px] font-semibold text-[10px] text-text-1 text-left truncate">

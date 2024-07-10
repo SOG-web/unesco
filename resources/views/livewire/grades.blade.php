@@ -19,7 +19,7 @@
                                         fill="#8F00FF"/>
                                 </svg>
                             @elseif ($grade->type == 'audio')
-                                <x-iconoir-headset class="w-[30px] h-[30px] text-secondary"/>
+                                <x-iconic-headphones class="w-[30px] h-[30px] text-secondary"/>
                             @else
                                 <x-iconic-link class="w-[30px] h-[30px] text-secondary"/>
                             @endif

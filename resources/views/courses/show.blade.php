@@ -72,7 +72,7 @@
                         @if($course->type == 'audio')
                             <div
                                 class="w-full h-[185px] md:h-[220px] lg:h-[302px] bg-bg-2 rounded-[8px] flex flex-col items-center justify-center">
-                                <x-iconoir-headset
+                                <x-iconic-headphones
                                     class="w-[30px] h-[30px] flex-1 md:w-[40px] md:h-[40px] lg:w-[65px] lg:h-[65px] text-secondary"/>
                                 <div class="self-baseline w-full mb-2 px-[40px]">
                                     <div id="audio-player-container"
@@ -131,7 +131,7 @@
                         <x-iconic-link class="w-[56px] h-[56px] lg:w-[78px] lg:h-[78px] text-secondary"/>
                         <div class="flex flex-col justify-end items-start w-full gap-1">
                             <div class="flex flex-row gap-2 items-center justify-start">
-                                <x-carbon-user class="w-[14px] h-[14px] text-gray-2"/>
+                                <heroicon-c-user class="w-[14px] h-[14px] text-gray-2"/>
                                 <p class="font-medium font-poppins text-[8px] text-gray-2">{{ $teacher->title . ' ' . $teacher->first_name . ' '. $teacher->last_name }}</p>
                             </div>
                             <h1 class="font-semibold text-[20px] w-full truncate text-wrap lg:text-[24px] leading-[31px] lg:leading-[34px] text-text-5">{{ $course->title }}</h1>

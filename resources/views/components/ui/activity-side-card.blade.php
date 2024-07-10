@@ -10,7 +10,7 @@
                       d="M15 4h3a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3m0 3h6m-3 5h3m-6 0h.01M12 16h3m-6 0h.01M10 3v4h4V3h-4Z"/>
             </svg>
         @else
-            <x-letsicon-sort-up-alt class="w-[20px] h-[20px] text-[#008E13] font-bold"/>
+            <x-heroicon-s-bars-arrow-up class="w-[20px] h-[20px] text-[#008E13] font-bold"/>
         @endif
     </x-ui.squared-icon>
     <div class="flex flex-col items-start justify-center gap-2">
