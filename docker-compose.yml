@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 services:
     unesco_app:
         build:
@@ -35,4 +35,3 @@ services:
 networks:
     laravel:
         driver: bridge
-
