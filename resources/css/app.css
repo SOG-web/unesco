@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 * {
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
 }
 
 .auth {
@@ -30,7 +30,35 @@
     right: 0;
     bottom: 0;
     left: 0;
-    background: linear-gradient(90deg, #1C4185 68.23%, rgba(28, 65, 133, 0.00) 100%);
+    background: linear-gradient(
+        90deg,
+        #1c4185 68.23%,
+        rgba(28, 65, 133, 0) 100%
+    );
     width: 100%;
     z-index: -1;
+}
+
+/* Firefox */
+.sidebar-scroll {
+    position: relative;
+    scrollbar-width: thin;
+    scrollbar-color: #cccccc #002979;
+    scrollbar-track-color: #e8eff6;
+    scrollbar-shadow-color: #002979;
+}
+
+/* Chrome, Edge, and Safari */
+.sidebar-scroll::-webkit-scrollbar {
+    width: 5px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-track {
+    background: #e8eff6;
+    border-radius: 5px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb {
+    background-color: #e8eff6;
+    border: none;
 }
